@@ -1,0 +1,10 @@
+version: '3'
+services:
+  db:
+    image: "postgres"
+    ports:
+      - "2345:5432"
+    environment:
+      POSTGRES_USER: hawkeye
+      POSTGRES_PASSWORD: hawkeye
+      POSTGRES_DB: hawkeye

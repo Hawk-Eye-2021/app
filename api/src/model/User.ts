@@ -6,7 +6,11 @@ export interface User {
     deleted: boolean
 }
 
-export class UserModel extends Model<User> implements User {
+export interface CreationUser {
+    name: string
+}
+
+export class UserModel extends Model<User, CreationUser> implements User {
     public id!: string;
     public name!: string;
     public deleted!: boolean;

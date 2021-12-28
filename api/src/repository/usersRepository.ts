@@ -1,11 +1,12 @@
 import {UserModel} from "../model/User";
-import exp from "constants";
+import {UserDTO} from "../dto/UserDTO";
 
-export const findUserById = async (id: string) => {
+export const findOne = async ({id, name}: { id?: string, name?: string }) => {
     return UserModel.findOne(
         {
             where: {
-                id,
+                ...(id && {id}),
+                ...(name && {name}),
                 deleted: false
             }
         }
@@ -18,4 +19,8 @@ export const findAll = () => {
             deleted: false
         }
     })
+}
+
+export const create = async (user: UserDTO) => {
+    return UserModel.create(user)
 }

@@ -1,11 +1,22 @@
 import {APIError} from "../errorHandler/errorHandler";
 import {User} from "../model/User";
+import {UserDTO} from "../dto/UserDTO";
+
 
 const usersRepository = require('../repository/usersRepository');
 
+
+export const createUser = async (user: UserDTO): Promise<User> => {
+    if (await usersRepository.findOne({name: user.name})) {
+        throw new APIError(400, 'User with this name already exists');
+    }
+    return await usersRepository.create(user);
+}
+
+
 export const getUserById = async (id: string): Promise<User> => {
     console.log('getting user with id: ' + id)
-    const user = await usersRepository.findUserById(id)
+    const user = await usersRepository.findOne({id})
     if (!user) {
         throw new APIError(404, `user not found for id ${id}`)
     }

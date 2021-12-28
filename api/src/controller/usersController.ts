@@ -15,6 +15,12 @@ const usersController = (app: Express) => {
             .then(users => users.map(toUserDTO))
             .then(dto => res.send(dto))
     }));
+
+    app.post('/users', handled(async (req: Request, res: Response) => {
+        await usersService.createUser(req.body)
+            .then(toUserDTO)
+            .then(dto => res.send(dto))
+    }))
 }
 
 export default usersController

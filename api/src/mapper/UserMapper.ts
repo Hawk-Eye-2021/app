@@ -4,6 +4,7 @@ import {UserDTO} from "../dto/UserDTO";
 
 export const toUserDTO = (user: User): UserDTO => {
     return {
-        name: user.name
+        name: user.name,
+        id: user.id
     }
 };

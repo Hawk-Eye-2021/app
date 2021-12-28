@@ -2,6 +2,16 @@ import {APIError} from "../errorHandler/errorHandler";
 import {User} from "../model/User";
 import {UserDTO} from "../dto/UserDTO";
 
+export async function deleteUser(id: string) {
+    const user = usersRepository.findOne({id})
+    if (!user) {
+        throw new APIError(404, 'User not found')
+    } else {
+        await usersRepository.logicDelete(id)
+        return user
+    }
+}
+
 
 const usersRepository = require('../repository/usersRepository');
 

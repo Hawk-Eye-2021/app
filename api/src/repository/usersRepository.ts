@@ -21,6 +21,19 @@ export const findAll = () => {
     })
 }
 
+export const logicDelete = (id: string) => {
+    return UserModel.update(
+        {
+            deleted: true
+        },
+        {
+            where: {
+                id
+            }
+        }
+    )
+}
+
 export const create = async (user: UserDTO) => {
     return UserModel.create(user)
 }

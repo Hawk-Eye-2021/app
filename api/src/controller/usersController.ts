@@ -21,6 +21,12 @@ const usersController = (app: Express) => {
             .then(toUserDTO)
             .then(dto => res.send(dto))
     }))
+
+    app.delete('/users/:id', handled(async (req: Request, res: Response) => {
+        await usersService.deleteUser(req.params.id)
+            .then(toUserDTO)
+            .then(dto => res.send(dto))
+    }))
 }
 
 export default usersController

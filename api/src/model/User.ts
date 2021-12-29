@@ -1,4 +1,11 @@
-import {DataTypes, Model, Sequelize} from "sequelize";
+import {
+    BelongsToManyAddAssociationMixin,
+    BelongsToManyGetAssociationsMixin, BelongsToManyRemoveAssociationMixin,
+    DataTypes,
+    Model,
+    Sequelize
+} from "sequelize";
+import {Theme, ThemeModel} from "./Theme";
 
 export interface User {
     id: string
@@ -14,28 +21,36 @@ export class UserModel extends Model<User, CreationUser> implements User {
     public id!: string;
     public name!: string;
     public deleted!: boolean;
+    public getThemeModels!: BelongsToManyGetAssociationsMixin<ThemeModel>
+    public addThemeModels!: BelongsToManyAddAssociationMixin<ThemeModel, string>
+    public removeThemeModels!: BelongsToManyRemoveAssociationMixin<ThemeModel, string>
 }
 
-export const initUser = (sequelize: Sequelize) => UserModel.init(
-    {
-        id: {
-            type: DataTypes.INTEGER.UNSIGNED,
-            autoIncrement: true,
-            primaryKey: true,
-        },
-        name: {
-            type: new DataTypes.STRING(128),
-            allowNull: false,
-        },
-        deleted: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false,
-        }
-    },
-    {
-        tableName: 'users',
-        sequelize: sequelize
-    },
 
-)
+
+export const initUser = (sequelize: Sequelize) => {
+    UserModel.init(
+        {
+            id: {
+                type: DataTypes.INTEGER.UNSIGNED,
+                autoIncrement: true,
+                primaryKey: true,
+            },
+            name: {
+                type: new DataTypes.STRING(128),
+                allowNull: false,
+            },
+            deleted: {
+                type: DataTypes.BOOLEAN,
+                allowNull: false,
+                defaultValue: false,
+            }
+        },
+        {
+            tableName: 'users',
+            sequelize: sequelize
+        },
+    )
+    UserModel.belongsToMany(ThemeModel, { through: "User_Themes" });
+    ThemeModel.belongsToMany(UserModel, { through: "User_Themes" });
+}

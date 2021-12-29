@@ -1,6 +1,7 @@
 import express from 'express';
 import usersController from "./src/controller/usersController";
 import {syncSchema} from "./src/model/sequelize"
+import themesController from "./src/controller/themesController";
 const bodyParser = require('body-parser')
 
 const app = express();
@@ -13,6 +14,7 @@ app.listen(port, () => {
 
 app.use(bodyParser.json())
 usersController(app)
+themesController(app)
 
 syncSchema()
 

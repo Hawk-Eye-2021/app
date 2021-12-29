@@ -1,7 +1,8 @@
 import {Sequelize} from "sequelize";
 import {initUser} from "./User";
+import {initTheme} from "./Theme";
 
-const sequelize: Sequelize = new Sequelize("postgres://hawkeye:hawkeye@localhost:2345/hawkeye")
+export const sequelize: Sequelize = new Sequelize("postgres://hawkeye:hawkeye@localhost:2345/hawkeye")
 
 export const syncSchema = () => {
 
@@ -11,4 +12,5 @@ export const syncSchema = () => {
         })
 }
 
+initTheme(sequelize)
 initUser(sequelize)

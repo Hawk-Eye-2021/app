@@ -26,8 +26,6 @@ export class UserModel extends Model<User, CreationUser> implements User {
     public removeThemeModels!: BelongsToManyRemoveAssociationMixin<ThemeModel, string>
 }
 
-
-
 export const initUser = (sequelize: Sequelize) => {
     UserModel.init(
         {

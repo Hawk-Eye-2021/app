@@ -1,8 +1,8 @@
 import express from 'express';
-import usersController from "./src/controller/usersController";
-import {syncSchema} from "./src/model/sequelize"
-import themesController from "./src/controller/themesController";
+import usersController from "./controller/usersController";
+import themesController from "./controller/themesController";
 const bodyParser = require('body-parser')
+import {sequelize} from './model/sequelize'
 
 const app = express();
 
@@ -13,12 +13,13 @@ app.listen(port, () => {
 });
 
 app.use(bodyParser.json())
+
 usersController(app)
 themesController(app)
 
-syncSchema()
-
-
+sequelize.afterSync(() => {
+    console.log('Database has been successfully synced')
+})
 
 
 

@@ -1,7 +1,7 @@
-import {Express, Request, Response} from "express";
+import {Express} from "express";
 import {toThemeDTO} from "../mapper/ThemesMapper";
 import {handled} from "../errorHandler/errorHandler";
-import themesService from "../service/themesService";
+import * as themesService from "../service/themesService"
 
 const themesController = (app: Express) => {
     app.get('/themes/:id', handled(async (req, res) => {

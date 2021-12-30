@@ -2,7 +2,7 @@ import {Express} from "express";
 import {toUserDTO} from "../mapper/UsersMapper";
 import {handled} from "../errorHandler/errorHandler";
 import {toThemeDTO} from "../mapper/ThemesMapper";
-import usersService from "../service/usersService";
+import * as usersService from "../service/usersService";
 
 const usersController = (app: Express) => {
     app.get('/users/:id', handled(async (req, res) => {

@@ -1,0 +1,38 @@
+@startuml
+
+
+class users {
+
+  + id: string
+  + name: string
+
+}
+
+class themes {
+  + id: string
+  + name: string
+
+}
+
+
+class content {
+  + id: string
+  + title: string
+  + url: string
+  + theme: themes
+  + source: soruces
+}
+
+class sources {
+  + id: string
+  + name: string
+  + url: string
+}
+
+users <---> themes
+content ---> themes
+content ---> sources
+
+
+
+@enduml

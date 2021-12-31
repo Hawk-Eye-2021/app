@@ -40,6 +40,8 @@ export const create = async (user: UserDTO): Promise<User> => {
     return UserModel.create(user)
 }
 
+// users <> themes
+
 export const addTheme = async (user: User, theme: Theme) => {
     const userModel = user as UserModel
     const themeModel = theme as ThemeModel

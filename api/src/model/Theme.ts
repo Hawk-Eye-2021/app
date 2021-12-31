@@ -1,11 +1,12 @@
 import {
     DataTypes,
     HasManyCreateAssociationMixin,
-    HasManyGetAssociationsMixin,
+    HasManyGetAssociationsMixin, HasManyRemoveAssociationMixin,
     Model,
     Sequelize
 } from "sequelize";
 import {UserModel} from "./User";
+import {ContentModel} from "./Content";
 
 export interface Theme {
     id: string
@@ -18,11 +19,14 @@ export interface CreationTheme {
 }
 
 export class ThemeModel extends Model<Theme, CreationTheme> implements Theme {
-    public id!: string;
-    public name!: string;
-    public deleted!: boolean;
-    public getUsersModel!: HasManyGetAssociationsMixin<UserModel>;
-    public addUserModel!: HasManyCreateAssociationMixin<UserModel>;
+    public id!: string
+    public name!: string
+    public deleted!: boolean
+    public getUsersModel!: HasManyGetAssociationsMixin<UserModel>
+    public addUserModel!: HasManyCreateAssociationMixin<UserModel>
+    public getContentModels!: HasManyGetAssociationsMixin<ContentModel>
+    public addContentModels!: HasManyCreateAssociationMixin<ContentModel>
+    public removeContentModels!: HasManyRemoveAssociationMixin<ContentModel, string>
 }
 
 

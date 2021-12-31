@@ -1,7 +1,7 @@
 import {
     DataTypes,
     HasManyCreateAssociationMixin,
-    HasManyGetAssociationsMixin, HasManyRemoveAssociationMixin,
+    HasManyGetAssociationsMixin, HasManyHasAssociationMixin, HasManyRemoveAssociationMixin,
     Model,
     Sequelize
 } from "sequelize";
@@ -25,6 +25,7 @@ export class ThemeModel extends Model<Theme, CreationTheme> implements Theme {
     public getUsersModel!: HasManyGetAssociationsMixin<UserModel>
     public addUserModel!: HasManyCreateAssociationMixin<UserModel>
     public getContentModels!: HasManyGetAssociationsMixin<ContentModel>
+    public hasContentModels!: HasManyHasAssociationMixin<ContentModel, string>
     public addContentModels!: HasManyCreateAssociationMixin<ContentModel>
     public removeContentModels!: HasManyRemoveAssociationMixin<ContentModel, string>
 }
@@ -33,7 +34,7 @@ export class ThemeModel extends Model<Theme, CreationTheme> implements Theme {
 export const initTheme = (sequelize: Sequelize) => ThemeModel.init(
     {
         id: {
-            type: DataTypes.INTEGER.UNSIGNED,
+            type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },

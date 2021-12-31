@@ -1,6 +1,9 @@
 import {Theme} from "../model/Theme";
 import {APIError} from "../errorHandler/errorHandler";
 import * as themesRepository from "../repository/themesRepository";
+import * as contentsService from "../service/contentsService"
+
+
 
 
 export const getThemes = async (): Promise<Theme[]> => {
@@ -9,14 +12,6 @@ export const getThemes = async (): Promise<Theme[]> => {
 
 export const getThemeById = async (id: string): Promise<Theme> => {
     const theme = await themesRepository.findOne({id})
-    if (!theme) {
-        throw new APIError(404, 'Theme not found')
-    }
-    return theme
-}
-
-export const getThemeByName = async (name: string): Promise<Theme> => {
-    const theme = await themesRepository.findOne({name})
     if (!theme) {
         throw new APIError(404, 'Theme not found')
     }
@@ -40,7 +35,31 @@ export const deleteTheme = async (id: string): Promise<Theme> => {
     return theme
 }
 
-export const getThemesByUserId = async (id: string) => {
-    return themesRepository.findAllForUserId(id)
+
+// themes <> contents
+
+export async function addContentToTheme(themeId: string, {contentId}: {contentId: string}) {
+    const theme = await getThemeById(themeId)
+    if (!theme){
+        throw new APIError(404, 'Theme not found')
+    }
+
+    const content = await contentsService.getContentById(contentId)
+    if(!content){
+        throw new APIError(404, 'Content not found')
+    }
+
+    await themesRepository.addContent(theme, content)
+
+    return themesRepository.findAllContentsForTheme(theme)
 }
 
+export async function getContentsByTheme(id: string) {
+    const theme  = await themesRepository.findOne({id})
+
+    if(!theme){
+        throw new APIError(404, 'Theme not found')
+    }
+
+    return themesRepository.findAllContentsForTheme(theme)
+}

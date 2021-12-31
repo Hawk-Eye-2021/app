@@ -1,5 +1,6 @@
 import {Content} from "../model/Content";
 import * as contentsRepository from "../repository/contentsRepository"
+import * as themesService from "../service/themesService"
 import {APIError} from "../errorHandler/errorHandler";
 
 export async function deleteContent (id: string): Promise<Content> {
@@ -14,10 +15,12 @@ export async function deleteContent (id: string): Promise<Content> {
 
 
 export async function createContent  (content: Content): Promise<Content> {
+
     const contentWithSameURL = await contentsRepository.findOne({url: content.url})
     if (contentWithSameURL) {
         throw new APIError(400, "Content with same URL already exists")
     }
+
     return contentsRepository.create(content)
 }
 

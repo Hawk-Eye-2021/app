@@ -40,74 +40,28 @@ export const create = async (user: UserDTO): Promise<User> => {
     return UserModel.create(user)
 }
 
-export const addTheme = async (userId: string, themeId: string): Promise<Theme[]> => {
-    const user = await UserModel.findOne({
-        where: {
-            id: userId,
-            deleted: false
-        }
-    })
+export const addTheme = async (user: User, theme: Theme) => {
+    const userModel = user as UserModel
+    const themeModel = theme as ThemeModel
 
-    if (!user) {
-        throw new APIError(404, 'User not found')
+    if (await userModel.hasThemeModels(themeModel)) {
+        throw new APIError(400, 'User already has this theme')
     }
-
-    const theme = await ThemeModel.findOne({
-        where: {
-            id: themeId,
-            deleted: false
-        }
-    })
-
-    if (!theme) {
-        throw new APIError(404, 'Theme not found')
-    }
-
-    await user.addThemeModels(theme)
-
-    return user.getThemeModels()
+    return userModel.addThemeModels(themeModel)
 }
 
-export const findAllThemesForUserId = async (id: string) => {
-    const user = await UserModel.findOne({
-        where: {
-            id,
-            deleted: false
-        }
-    })
-
-    if (!user) {
-        throw new APIError(404, 'User not found')
-    }
-
-    return user.getThemeModels()
+export const findAllThemesForUser = async (user: User) => {
+    const userModel = user as UserModel
+    return userModel.getThemeModels()
 }
 
-export const removeTheme = async (userId: string, themeId: string) => {
-    const user = await UserModel.findOne({
-        where: {
-            id: userId,
-            deleted: false
-        }
-    })
+export const removeTheme = async (user: User, theme: Theme) => {
 
-    const theme = await ThemeModel.findOne({
-        where: {
-            id: themeId,
-            deleted: false
-        }
-    })
+    const userModel = user as UserModel
+    const themeModel = theme as ThemeModel
 
-    if (!user) {
-        throw new APIError(404, 'User not found')
-    }
+    await userModel.removeThemeModels(themeModel)
 
-    if (!theme) {
-        throw new APIError(404, 'Theme not found')
-    }
-
-    await user.removeThemeModels(theme)
-
-    return user.getThemeModels()
+    return userModel.getThemeModels()
 }
 

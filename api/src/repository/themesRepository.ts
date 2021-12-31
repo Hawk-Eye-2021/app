@@ -1,6 +1,9 @@
-import {UserModel} from "../model/User";
+import {User, UserModel} from "../model/User";
 import {Theme, ThemeModel} from "../model/Theme";
 import {APIError} from "../errorHandler/errorHandler";
+import {Content, ContentModel} from "../model/Content";
+
+
 
 
 export const findOne = async ({id, name}: { id?: string, name?: string }): Promise<Theme | null> => {
@@ -39,18 +42,23 @@ export const create = async (theme: Theme): Promise<Theme> => {
     return ThemeModel.create(theme)
 }
 
-export const findAllForUserId = async (id: string): Promise<Theme[]> => {
-    const user = await UserModel.findOne({
-        where: {
-            id
-        }
-    })
+// themes <> contents
 
-    if (!user) {
-        throw new APIError(404, 'User not found')
-    }
-
-    return user.getThemeModels()
-
+export async function findAllContentsForTheme(theme: Theme): Promise<Content[]> {
+    const themeModel = theme as ThemeModel
+    return themeModel.getContentModels()
 }
 
+
+export async function addContent(theme: Theme, content: Content) {
+
+    const themeModel = theme as ThemeModel
+    const contentModel = content as ContentModel
+
+    if (await themeModel.hasContentModels(contentModel)){
+        throw new APIError(400, 'Content already added to theme')
+    }
+    await themeModel.addContentModels(contentModel)
+    return themeModel.getContentModels()
+
+}

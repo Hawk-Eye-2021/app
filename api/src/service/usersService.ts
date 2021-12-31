@@ -1,8 +1,9 @@
 import {APIError} from "../errorHandler/errorHandler";
-import {User} from "../model/User";
+import {User, UserModel} from "../model/User";
 import {UserDTO} from "../dto/UserDTO";
 import * as usersRepository from "../repository/usersRepository";
 import * as themesService from "../service/themesService"
+import {ThemeModel} from "../model/Theme";
 
 export const createUser = async (user: UserDTO): Promise<User> => {
     if (await usersRepository.findOne({name: user.name})) {
@@ -31,12 +32,14 @@ export const deleteUser = async (id: string): Promise<User> => {
     return user
 }
 
+// users <> themes
+
 export const getThemesByUserId = async (id: string) => {
     const user = await usersRepository.findOne({id})
     if (!user) {
         throw new APIError(404, `user not found for id ${id}`)
     }
-    return usersRepository.findAllThemesForUserId(id)
+    return usersRepository.findAllThemesForUser(user)
 }
 
 export const addTheme = async (userId: string, {themeId}: { themeId: string }) => {
@@ -49,7 +52,10 @@ export const addTheme = async (userId: string, {themeId}: { themeId: string }) =
     if (!theme) {
         throw new APIError(404, 'Theme not found');
     }
-    return usersRepository.addTheme(userId, themeId)
+
+    await usersRepository.addTheme(user as UserModel, theme as ThemeModel)
+
+    return usersRepository.findAllThemesForUser(user)
 }
 
 export const removeThemeForUser = async (userId: string, themeId: string) => {
@@ -62,7 +68,7 @@ export const removeThemeForUser = async (userId: string, themeId: string) => {
     if (!theme) {
         throw new APIError(404, 'Theme not found');
     }
-    return usersRepository.removeTheme(userId, themeId)
+    return usersRepository.removeTheme(user, theme)
 }
 
 

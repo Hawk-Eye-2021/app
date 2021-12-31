@@ -1,6 +1,6 @@
 import {
     BelongsToManyAddAssociationMixin,
-    BelongsToManyGetAssociationsMixin, BelongsToManyRemoveAssociationMixin,
+    BelongsToManyGetAssociationsMixin, BelongsToManyHasAssociationMixin, BelongsToManyRemoveAssociationMixin,
     DataTypes,
     Model,
     Sequelize
@@ -22,6 +22,7 @@ export class UserModel extends Model<User, CreationUser> implements User {
     public name!: string;
     public deleted!: boolean;
     public getThemeModels!: BelongsToManyGetAssociationsMixin<ThemeModel>
+    public hasThemeModels!: BelongsToManyHasAssociationMixin<ThemeModel, string>
     public addThemeModels!: BelongsToManyAddAssociationMixin<ThemeModel, string>
     public removeThemeModels!: BelongsToManyRemoveAssociationMixin<ThemeModel, string>
 }
@@ -30,7 +31,7 @@ export const initUser = (sequelize: Sequelize) => {
     UserModel.init(
         {
             id: {
-                type: DataTypes.INTEGER.UNSIGNED,
+                type: DataTypes.INTEGER,
                 autoIncrement: true,
                 primaryKey: true,
             },
@@ -49,6 +50,5 @@ export const initUser = (sequelize: Sequelize) => {
             sequelize: sequelize
         },
     )
-    UserModel.belongsToMany(ThemeModel, { through: "User_Themes" });
-    ThemeModel.belongsToMany(UserModel, { through: "User_Themes" });
+
 }

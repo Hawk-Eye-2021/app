@@ -14,13 +14,21 @@ class themes {
 
 }
 
+class users_themes {
+  + user_id: string
+  + themes_id: string
+}
 
 class content {
   + id: string
   + title: string
   + url: string
-  + theme: themes
   + source: soruces
+}
+
+class content_themes {
+  + content_id: string
+  + theme_id: string
 }
 
 class sources {
@@ -29,9 +37,12 @@ class sources {
   + url: string
 }
 
-users <---> themes
-content ---> themes
+users ---> users_themes
+content ---> content_themes
+themes ---> content_themes
+themes ---> users_themes
 content ---> sources
+
 
 
 

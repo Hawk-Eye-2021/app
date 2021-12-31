@@ -32,7 +32,7 @@ export const initContent = (sequelize: Sequelize) => {
     ContentModel.init(
         {
             id: {
-                type: DataTypes.INTEGER.UNSIGNED,
+                type: DataTypes.INTEGER,
                 autoIncrement: true,
                 primaryKey: true,
             },
@@ -55,7 +55,6 @@ export const initContent = (sequelize: Sequelize) => {
             sequelize: sequelize
         },
     )
-    ContentModel.belongsTo(ThemeModel)
-    ThemeModel.hasMany(ContentModel)
+
 
 }

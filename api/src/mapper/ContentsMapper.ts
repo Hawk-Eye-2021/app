@@ -6,6 +6,7 @@ export function toContentDTO(content: Content): ContentDTO {
     return {
         id: content.id,
         title: content.title,
-        url: content.url
+        url: content.url,
+        sourceId: content.sourceId
     }
 }

@@ -1,9 +1,11 @@
 import express from 'express';
 import usersController from "./controller/usersController";
 import themesController from "./controller/themesController";
-const bodyParser = require('body-parser')
 import {sequelize} from './model/sequelize'
 import contentsController from "./controller/contentsController";
+import sourcesController from "./controller/sourcesController";
+
+const bodyParser = require('body-parser')
 
 const app = express();
 
@@ -18,6 +20,7 @@ app.use(bodyParser.json())
 usersController(app)
 themesController(app)
 contentsController(app)
+sourcesController(app)
 
 sequelize.afterSync(() => {
     console.log('Database has been successfully synced')

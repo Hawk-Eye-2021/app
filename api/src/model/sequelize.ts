@@ -2,6 +2,7 @@ import {Sequelize} from "sequelize";
 import {initUser, UserModel} from "./User";
 import {initTheme, ThemeModel} from "./Theme";
 import {ContentModel, initContent} from "./Content";
+import {initSource, SourceModel} from "./Source";
 
 export const sequelize: Sequelize = new Sequelize("postgres://hawkeye:hawkeye@localhost:2345/hawkeye")
 
@@ -11,15 +12,24 @@ async function syncSchema() {
 }
 
 function applyRelations() {
+    // users <> themes
     UserModel.belongsToMany(ThemeModel, {through: "user_themes", foreignKey: "user_id",});
     ThemeModel.belongsToMany(UserModel, {through: "user_themes", foreignKey: "theme_id"});
+
+    // contents <> themes
     ContentModel.belongsToMany(ThemeModel, {through: "content_themes", foreignKey: "content_id"});
     ThemeModel.belongsToMany(ContentModel, {through: "content_themes", foreignKey: "theme_id"})
+
+    // contents <> sources
+
+    SourceModel.hasMany(ContentModel, {foreignKey: "source_id"})
+    ContentModel.belongsTo(SourceModel, {foreignKey: "source_id"})
 }
 
 
 initTheme(sequelize)
 initUser(sequelize)
+initSource(sequelize)
 initContent(sequelize)
 
 

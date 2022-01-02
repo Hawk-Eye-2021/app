@@ -1,15 +1,18 @@
 import {DataTypes, Model, Sequelize} from "sequelize";
+import {SourceModel} from "./Source";
 
 export interface Content {
     id: string
     title: string
     url: string
+    sourceId: string
     deleted?: boolean
 }
 
 export interface CreationContent {
     title: string
     url: string
+    sourceId: string
 }
 
 export class ContentModel extends Model<Content, CreationContent> implements Content {
@@ -17,6 +20,7 @@ export class ContentModel extends Model<Content, CreationContent> implements Con
     public title!: string;
     public url!: string;
     public deleted!: boolean;
+    public sourceId!: string
 }
 
 
@@ -40,6 +44,13 @@ export async function initContent(sequelize: Sequelize) {
                 type: DataTypes.BOOLEAN,
                 allowNull: false,
                 defaultValue: false,
+            },
+            sourceId: {
+                type: DataTypes.INTEGER,
+                field: 'source_id',
+                references: {
+                    model: SourceModel
+                }
             }
         },
         {

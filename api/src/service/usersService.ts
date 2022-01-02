@@ -30,7 +30,7 @@ export async function deleteUser(id: string): Promise<User> {
     if (!user) {
         throw new APIError(404, `user not found for id ${id}`)
     }
-    await usersRepository.logicDelete(id)
+    await usersRepository.logicDelete(user)
     return user
 }
 

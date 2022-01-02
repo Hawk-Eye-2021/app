@@ -8,7 +8,7 @@ export async function deleteContent (id: string): Promise<Content> {
     if (!content) {
         throw new APIError(404, "Content not found")
     }
-    await contentsRepository.deleteById(id)
+    await contentsRepository.deleteContent(content)
     return content
 
 }

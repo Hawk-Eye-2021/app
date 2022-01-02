@@ -14,14 +14,10 @@ export async function create(content: Content) {
 }
 
 
-export async function deleteById(id: string) {
-    return ContentModel.update({
-        deleted: true
-    }, {
-        where: {
-            id: id
-        }
-    })
+export async function deleteContent(content: Content) {
+    const contentModel = content as ContentModel
+    await contentModel.update({deleted: true})
+    await contentModel.removeThemes()
 }
 
 

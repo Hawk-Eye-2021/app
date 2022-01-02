@@ -24,12 +24,12 @@ export class ThemeModel extends Model<Theme, CreationTheme> implements Theme {
     public id!: string
     public name!: string
     public deleted!: boolean
-    public getUsersModel!: HasManyGetAssociationsMixin<UserModel>
-    public addUserModel!: HasManyCreateAssociationMixin<UserModel>
-    public getContentModels!: HasManyGetAssociationsMixin<ContentModel>
-    public hasContentModels!: HasManyHasAssociationMixin<ContentModel, string>
-    public addContentModels!: HasManyCreateAssociationMixin<ContentModel>
-    public removeContentModels!: HasManyRemoveAssociationMixin<ContentModel, string>
+    public getUsers!: HasManyGetAssociationsMixin<UserModel>
+    public addUser!: HasManyCreateAssociationMixin<UserModel>
+    public getContents!: HasManyGetAssociationsMixin<ContentModel>
+    public hasContents!: HasManyHasAssociationMixin<ContentModel, string>
+    public addContents!: HasManyCreateAssociationMixin<ContentModel>
+    public removeContents!: HasManyRemoveAssociationMixin<ContentModel, string>
 }
 
 

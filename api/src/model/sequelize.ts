@@ -13,12 +13,12 @@ async function syncSchema() {
 
 function applyRelations() {
     // users <> themes
-    UserModel.belongsToMany(ThemeModel, {through: "user_themes", foreignKey: "user_id",});
-    ThemeModel.belongsToMany(UserModel, {through: "user_themes", foreignKey: "theme_id"});
+    UserModel.belongsToMany(ThemeModel, {through: "user_themes", foreignKey: "user_id", as: "themes"});
+    ThemeModel.belongsToMany(UserModel, {through: "user_themes", foreignKey: "theme_id", as: "users"});
 
     // contents <> themes
-    ContentModel.belongsToMany(ThemeModel, {through: "content_themes", foreignKey: "content_id"});
-    ThemeModel.belongsToMany(ContentModel, {through: "content_themes", foreignKey: "theme_id"})
+    ContentModel.belongsToMany(ThemeModel, {through: "content_themes", foreignKey: "content_id", as: "themes"});
+    ThemeModel.belongsToMany(ContentModel, {through: "content_themes", foreignKey: "theme_id", as: "contents"})
 
     // contents <> sources
 

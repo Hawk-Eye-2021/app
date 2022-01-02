@@ -24,17 +24,10 @@ export async function findAll(): Promise<User[]> {
     })
 }
 
-export async function logicDelete(id: string): Promise<void> {
-    await UserModel.update(
-        {
-            deleted: true
-        },
-        {
-            where: {
-                id
-            }
-        }
-    )
+export async function logicDelete(user: User): Promise<void> {
+    const userModel = user as UserModel
+    await userModel.update({deleted: true})
+    await userModel.removeThemes()
 }
 
 export async function create(user: UserDTO): Promise<User> {
@@ -47,15 +40,15 @@ export async function addTheme(user: User, theme: Theme) {
     const userModel = user as UserModel
     const themeModel = theme as ThemeModel
 
-    if (await userModel.hasThemeModels(themeModel)) {
+    if (await userModel.hasThemes(themeModel)) {
         throw new APIError(400, 'User already has this theme')
     }
-    return userModel.addThemeModels(themeModel)
+    return userModel.addThemes(themeModel)
 }
 
 export async function findAllThemesForUser(user: User) {
     const userModel = user as UserModel
-    return userModel.getThemeModels()
+    return userModel.getThemes()
 }
 
 export async function removeTheme(user: User, theme: Theme) {
@@ -63,8 +56,8 @@ export async function removeTheme(user: User, theme: Theme) {
     const userModel = user as UserModel
     const themeModel = theme as ThemeModel
 
-    await userModel.removeThemeModels(themeModel)
+    await userModel.removeThemes(themeModel)
 
-    return userModel.getThemeModels()
+    return userModel.getThemes()
 }
 

@@ -23,10 +23,10 @@ export class UserModel extends Model<User, CreationUser> implements User {
     public id!: string;
     public name!: string;
     public deleted!: boolean;
-    public getThemeModels!: BelongsToManyGetAssociationsMixin<ThemeModel>
-    public hasThemeModels!: BelongsToManyHasAssociationMixin<ThemeModel, string>
-    public addThemeModels!: BelongsToManyAddAssociationMixin<ThemeModel, string>
-    public removeThemeModels!: BelongsToManyRemoveAssociationMixin<ThemeModel, string>
+    public getThemes!: BelongsToManyGetAssociationsMixin<ThemeModel>
+    public hasThemes!: BelongsToManyHasAssociationMixin<ThemeModel, string>
+    public addThemes!: BelongsToManyAddAssociationMixin<ThemeModel, string>
+    public removeThemes!: BelongsToManyRemoveAssociationMixin<ThemeModel, string>
 }
 
 export async function initUser(sequelize: Sequelize) {

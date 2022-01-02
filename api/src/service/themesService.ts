@@ -29,7 +29,7 @@ export async function deleteTheme(id: string): Promise<Theme> {
     if (!theme) {
         throw new APIError(404, 'Theme not found')
     }
-    await themesRepository.logicDelete(id)
+    await themesRepository.logicDelete(theme)
     return theme
 }
 

@@ -23,17 +23,10 @@ export async function findAll(): Promise<Theme[]> {
     })
 }
 
-export async function logicDelete(id: string): Promise<void> {
-    await ThemeModel.update(
-        {
-            deleted: true
-        },
-        {
-            where: {
-                id
-            }
-        }
-    )
+export async function logicDelete(theme: Theme): Promise<void> {
+    const themeModel = theme as ThemeModel
+    await themeModel.update({deleted: true})
+    await themeModel.removeContents()
 }
 
 export async function create(theme: Theme): Promise<Theme> {
@@ -44,7 +37,7 @@ export async function create(theme: Theme): Promise<Theme> {
 
 export async function findAllContentsForTheme(theme: Theme): Promise<Content[]> {
     const themeModel = theme as ThemeModel
-    return themeModel.getContentModels()
+    return themeModel.getContents()
 }
 
 
@@ -53,10 +46,10 @@ export async function addContent(theme: Theme, content: Content) {
     const themeModel = theme as ThemeModel
     const contentModel = content as ContentModel
 
-    if (await themeModel.hasContentModels(contentModel)){
+    if (await themeModel.hasContents(contentModel)) {
         throw new APIError(400, 'Content already added to theme')
     }
-    await themeModel.addContentModels(contentModel)
-    return themeModel.getContentModels()
+    await themeModel.addContents(contentModel)
+    return themeModel.getContents()
 
 }

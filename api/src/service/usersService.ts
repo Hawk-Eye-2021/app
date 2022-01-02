@@ -5,13 +5,14 @@ import * as usersRepository from "../repository/usersRepository";
 import * as themesService from "../service/themesService"
 import {ThemeModel} from "../model/Theme";
 
-export const createUser = async (user: UserDTO): Promise<User> => {
+export async function createUser(user: UserDTO): Promise<User> {
     if (await usersRepository.findOne({name: user.name})) {
         throw new APIError(400, 'User with this name already exists');
     }
     return await usersRepository.create(user);
 }
-export const getUserById = async (id: string): Promise<User> => {
+
+export async function getUserById(id: string): Promise<User> {
     console.log('getting user with id: ' + id)
     const user = await usersRepository.findOne({id})
     if (!user) {
@@ -19,11 +20,12 @@ export const getUserById = async (id: string): Promise<User> => {
     }
     return user
 }
-export const getUsers = async (): Promise<User[]> => {
+
+export async function getUsers(): Promise<User[]> {
     return await usersRepository.findAll()
 }
 
-export const deleteUser = async (id: string): Promise<User> => {
+export async function deleteUser(id: string): Promise<User> {
     const user = await usersRepository.findOne({id})
     if (!user) {
         throw new APIError(404, `user not found for id ${id}`)
@@ -34,7 +36,7 @@ export const deleteUser = async (id: string): Promise<User> => {
 
 // users <> themes
 
-export const getThemesByUserId = async (id: string) => {
+export async function getThemesByUserId(id: string) {
     const user = await usersRepository.findOne({id})
     if (!user) {
         throw new APIError(404, `user not found for id ${id}`)
@@ -42,7 +44,7 @@ export const getThemesByUserId = async (id: string) => {
     return usersRepository.findAllThemesForUser(user)
 }
 
-export const addTheme = async (userId: string, {themeId}: { themeId: string }) => {
+export async function addTheme(userId: string, {themeId}: { themeId: string }) {
     const user = await usersRepository.findOne({id: userId})
     if (!user) {
         throw new APIError(404, 'User not found');
@@ -58,7 +60,7 @@ export const addTheme = async (userId: string, {themeId}: { themeId: string }) =
     return usersRepository.findAllThemesForUser(user)
 }
 
-export const removeThemeForUser = async (userId: string, themeId: string) => {
+export async function removeThemeForUser(userId: string, themeId: string) {
     const user = await usersRepository.findOne({id: userId})
     if (!user) {
         throw new APIError(404, 'User not found');

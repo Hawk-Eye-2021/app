@@ -1,6 +1,5 @@
 import {Content} from "../model/Content";
 import * as contentsRepository from "../repository/contentsRepository"
-import * as themesService from "../service/themesService"
 import {APIError} from "../errorHandler/errorHandler";
 
 export async function deleteContent (id: string): Promise<Content> {
@@ -33,7 +32,7 @@ export async function getContentById  (id: string): Promise<Content> {
     return content
 }
 
-export const getContents = (): Promise<Content[]> => {
+export async function getContents(): Promise<Content[]> {
     return contentsRepository.findAll()
 }
 

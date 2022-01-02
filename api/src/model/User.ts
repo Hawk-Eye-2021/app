@@ -1,11 +1,13 @@
 import {
     BelongsToManyAddAssociationMixin,
-    BelongsToManyGetAssociationsMixin, BelongsToManyHasAssociationMixin, BelongsToManyRemoveAssociationMixin,
+    BelongsToManyGetAssociationsMixin,
+    BelongsToManyHasAssociationMixin,
+    BelongsToManyRemoveAssociationMixin,
     DataTypes,
     Model,
     Sequelize
 } from "sequelize";
-import {Theme, ThemeModel} from "./Theme";
+import {ThemeModel} from "./Theme";
 
 export interface User {
     id: string
@@ -27,7 +29,7 @@ export class UserModel extends Model<User, CreationUser> implements User {
     public removeThemeModels!: BelongsToManyRemoveAssociationMixin<ThemeModel, string>
 }
 
-export const initUser = (sequelize: Sequelize) => {
+export async function initUser(sequelize: Sequelize) {
     UserModel.init(
         {
             id: {

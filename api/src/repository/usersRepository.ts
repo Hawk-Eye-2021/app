@@ -4,7 +4,7 @@ import {Theme, ThemeModel} from "../model/Theme";
 import {APIError} from "../errorHandler/errorHandler";
 
 
-export const findOne = async ({id, name}: { id?: string, name?: string }): Promise<User | null> => {
+export async function findOne({id, name}: { id?: string, name?: string }): Promise<User | null> {
     return UserModel.findOne(
         {
             where: {
@@ -16,7 +16,7 @@ export const findOne = async ({id, name}: { id?: string, name?: string }): Promi
     )
 }
 
-export const findAll = async (): Promise<User[]> => {
+export async function findAll(): Promise<User[]> {
     return UserModel.findAll({
         where: {
             deleted: false
@@ -24,7 +24,7 @@ export const findAll = async (): Promise<User[]> => {
     })
 }
 
-export const logicDelete = async (id: string): Promise<void> => {
+export async function logicDelete(id: string): Promise<void> {
     await UserModel.update(
         {
             deleted: true
@@ -36,13 +36,14 @@ export const logicDelete = async (id: string): Promise<void> => {
         }
     )
 }
-export const create = async (user: UserDTO): Promise<User> => {
+
+export async function create(user: UserDTO): Promise<User> {
     return UserModel.create(user)
 }
 
 // users <> themes
 
-export const addTheme = async (user: User, theme: Theme) => {
+export async function addTheme(user: User, theme: Theme) {
     const userModel = user as UserModel
     const themeModel = theme as ThemeModel
 
@@ -52,12 +53,12 @@ export const addTheme = async (user: User, theme: Theme) => {
     return userModel.addThemeModels(themeModel)
 }
 
-export const findAllThemesForUser = async (user: User) => {
+export async function findAllThemesForUser(user: User) {
     const userModel = user as UserModel
     return userModel.getThemeModels()
 }
 
-export const removeTheme = async (user: User, theme: Theme) => {
+export async function removeTheme(user: User, theme: Theme) {
 
     const userModel = user as UserModel
     const themeModel = theme as ThemeModel

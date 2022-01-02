@@ -1,7 +1,9 @@
 import {
     DataTypes,
     HasManyCreateAssociationMixin,
-    HasManyGetAssociationsMixin, HasManyHasAssociationMixin, HasManyRemoveAssociationMixin,
+    HasManyGetAssociationsMixin,
+    HasManyHasAssociationMixin,
+    HasManyRemoveAssociationMixin,
     Model,
     Sequelize
 } from "sequelize";
@@ -31,25 +33,26 @@ export class ThemeModel extends Model<Theme, CreationTheme> implements Theme {
 }
 
 
-export const initTheme = (sequelize: Sequelize) => ThemeModel.init(
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
+export async function initTheme(sequelize: Sequelize) {
+    ThemeModel.init(
+        {
+            id: {
+                type: DataTypes.INTEGER,
+                autoIncrement: true,
+                primaryKey: true,
+            },
+            name: {
+                type: new DataTypes.STRING(128),
+                allowNull: false,
+            },
+            deleted: {
+                type: DataTypes.BOOLEAN,
+                allowNull: false,
+                defaultValue: false,
+            }
         },
-        name: {
-            type: new DataTypes.STRING(128),
-            allowNull: false,
-        },
-        deleted: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false,
-        }
-    },
-    {
-        tableName: 'themes',
-        sequelize: sequelize
-    },
-)
+        {
+            tableName: 'themes',
+            sequelize: sequelize
+        })
+}

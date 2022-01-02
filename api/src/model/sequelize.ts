@@ -5,13 +5,13 @@ import {ContentModel, initContent} from "./Content";
 
 export const sequelize: Sequelize = new Sequelize("postgres://hawkeye:hawkeye@localhost:2345/hawkeye")
 
-const syncSchema = async () => {
+async function syncSchema() {
 
     await sequelize.sync({alter: true})
 }
 
 function applyRelations() {
-    UserModel.belongsToMany(ThemeModel, {through: "user_themes", foreignKey: "user_id", });
+    UserModel.belongsToMany(ThemeModel, {through: "user_themes", foreignKey: "user_id",});
     ThemeModel.belongsToMany(UserModel, {through: "user_themes", foreignKey: "theme_id"});
     ContentModel.belongsToMany(ThemeModel, {through: "content_themes", foreignKey: "content_id"});
     ThemeModel.belongsToMany(ContentModel, {through: "content_themes", foreignKey: "theme_id"})

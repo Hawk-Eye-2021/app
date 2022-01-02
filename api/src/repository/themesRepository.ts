@@ -1,12 +1,9 @@
-import {User, UserModel} from "../model/User";
 import {Theme, ThemeModel} from "../model/Theme";
 import {APIError} from "../errorHandler/errorHandler";
 import {Content, ContentModel} from "../model/Content";
 
 
-
-
-export const findOne = async ({id, name}: { id?: string, name?: string }): Promise<Theme | null> => {
+export async function findOne({id, name}: { id?: string, name?: string }): Promise<Theme | null> {
     return ThemeModel.findOne(
         {
             where: {
@@ -17,7 +14,8 @@ export const findOne = async ({id, name}: { id?: string, name?: string }): Promi
         }
     )
 }
-export const findAll = async (): Promise<Theme[]> => {
+
+export async function findAll(): Promise<Theme[]> {
     return ThemeModel.findAll({
         where: {
             deleted: false
@@ -25,7 +23,7 @@ export const findAll = async (): Promise<Theme[]> => {
     })
 }
 
-export const logicDelete = async (id: string): Promise<void> => {
+export async function logicDelete(id: string): Promise<void> {
     await ThemeModel.update(
         {
             deleted: true
@@ -38,7 +36,7 @@ export const logicDelete = async (id: string): Promise<void> => {
     )
 }
 
-export const create = async (theme: Theme): Promise<Theme> => {
+export async function create(theme: Theme): Promise<Theme> {
     return ThemeModel.create(theme)
 }
 

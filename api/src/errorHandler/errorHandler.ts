@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
 
 
-export const handled = (fn: (req: Request, res: Response) => Promise<void>) => {
+export function handled(fn: (req: Request, res: Response) => Promise<void>) {
     return (req: Request, res: Response) => {
         fn(req, res)
             .catch(e => {
@@ -14,6 +14,7 @@ export const handled = (fn: (req: Request, res: Response) => Promise<void>) => {
             })
     }
 }
+
 export class APIError implements APIError {
 
 

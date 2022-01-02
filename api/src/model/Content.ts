@@ -1,12 +1,4 @@
-import {
-    DataTypes,
-    HasManyCreateAssociationMixin,
-    HasManyGetAssociationsMixin, HasOneGetAssociationMixin,
-    Model,
-    Sequelize
-} from "sequelize";
-import {UserModel} from "./User";
-import {Theme, ThemeModel} from "./Theme";
+import {DataTypes, Model, Sequelize} from "sequelize";
 
 export interface Content {
     id: string
@@ -28,7 +20,7 @@ export class ContentModel extends Model<Content, CreationContent> implements Con
 }
 
 
-export const initContent = (sequelize: Sequelize) => {
+export async function initContent(sequelize: Sequelize) {
     ContentModel.init(
         {
             id: {

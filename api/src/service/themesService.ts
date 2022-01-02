@@ -4,13 +4,11 @@ import * as themesRepository from "../repository/themesRepository";
 import * as contentsService from "../service/contentsService"
 
 
-
-
-export const getThemes = async (): Promise<Theme[]> => {
+export async function getThemes(): Promise<Theme[]> {
     return themesRepository.findAll()
 }
 
-export const getThemeById = async (id: string): Promise<Theme> => {
+export async function getThemeById(id: string): Promise<Theme> {
     const theme = await themesRepository.findOne({id})
     if (!theme) {
         throw new APIError(404, 'Theme not found')
@@ -18,7 +16,7 @@ export const getThemeById = async (id: string): Promise<Theme> => {
     return theme
 }
 
-export const createTheme = async (theme: Theme): Promise<Theme> => {
+export async function createTheme(theme: Theme): Promise<Theme> {
     const sameNameTheme = await themesRepository.findOne({name: theme.name})
     if (sameNameTheme) {
         throw new APIError(400, 'Theme with this name already exists')
@@ -26,7 +24,7 @@ export const createTheme = async (theme: Theme): Promise<Theme> => {
     return themesRepository.create(theme)
 }
 
-export const deleteTheme = async (id: string): Promise<Theme> => {
+export async function deleteTheme(id: string): Promise<Theme> {
     const theme = await themesRepository.findOne({id})
     if (!theme) {
         throw new APIError(404, 'Theme not found')

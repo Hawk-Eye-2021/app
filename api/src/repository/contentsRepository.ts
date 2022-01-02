@@ -17,7 +17,9 @@ export async function create(content: Content) {
 export async function deleteContent(content: Content) {
     const contentModel = content as ContentModel
     await contentModel.update({deleted: true})
-    await contentModel.removeThemes()
+
+    const themes = await contentModel.getThemes()
+    await Promise.all(themes.map(theme => contentModel.removeThemes(theme)))
 }
 
 

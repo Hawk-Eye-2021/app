@@ -32,7 +32,7 @@ const themesController = (app: Express) => {
     app.post('/themes/:themeId/contents', handled(async (req, res) => {
         await themesService.addContentToTheme(req.params.themeId, req.body)
             .then(contents => contents.map(toContentDTO))
-            .then(res.send)
+            .then(contents => res.send(contents))
     }))
 
     app.get('/themes/:themeId/contents', handled(async (req, res) => {

@@ -7,7 +7,7 @@ import {
     Model,
     Sequelize
 } from "sequelize";
-import {UserModel} from "./User";
+import {User, UserModel} from "./User";
 import {ContentModel} from "./Content";
 
 export interface Theme {
@@ -26,6 +26,7 @@ export class ThemeModel extends Model<Theme, CreationTheme> implements Theme {
     public deleted!: boolean
     public getUsers!: HasManyGetAssociationsMixin<UserModel>
     public addUser!: HasManyCreateAssociationMixin<UserModel>
+    public removeUsers!: HasManyRemoveAssociationMixin<User, string>
     public getContents!: HasManyGetAssociationsMixin<ContentModel>
     public hasContents!: HasManyHasAssociationMixin<ContentModel, string>
     public addContents!: HasManyCreateAssociationMixin<ContentModel>

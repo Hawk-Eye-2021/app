@@ -26,7 +26,12 @@ export async function findAll(): Promise<Theme[]> {
 export async function logicDelete(theme: Theme): Promise<void> {
     const themeModel = theme as ThemeModel
     await themeModel.update({deleted: true})
-    await themeModel.removeContents()
+
+    const contents = await themeModel.getContents()
+    await Promise.all(contents.map(content => themeModel.removeContents(content)))
+
+    const users = await themeModel.getUsers()
+    await Promise.all(users.map(user => themeModel.removeUsers(user)))
 }
 
 export async function create(theme: Theme): Promise<Theme> {

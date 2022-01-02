@@ -1,4 +1,4 @@
-import {DataTypes, HasManyRemoveAssociationMixin, Model, Sequelize} from "sequelize";
+import {DataTypes, HasManyGetAssociationsMixin, HasManyRemoveAssociationMixin, Model, Sequelize} from "sequelize";
 import {SourceModel} from "./Source";
 import {ThemeModel} from "./Theme";
 
@@ -23,6 +23,7 @@ export class ContentModel extends Model<Content, CreationContent> implements Con
     public deleted!: boolean;
     public sourceId!: string
     public removeThemes!: HasManyRemoveAssociationMixin<ThemeModel, string>
+    public getThemes!: HasManyGetAssociationsMixin<ThemeModel>
 }
 
 

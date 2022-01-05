@@ -1,11 +1,11 @@
-import { FC, ChangeEvent, useState } from 'react';
+import {FC, ChangeEvent, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {
     Tooltip,
     Divider,
     Box,
     FormControl,
-    InputLabel,
+    TextField,
     Card,
     IconButton,
     Table,
@@ -37,11 +37,16 @@ interface TableProps {
 
 const applyFilters = (
     rows: any[],
-    columns: IColumn[]
+    columns: IColumn[],
+    filterValue: string
 ): any[] => {
-    return rows.filter((row) => {
-        return row;
-    });
+    if(filterValue) {
+        return rows.filter((row) => {
+            // @ts-ignore
+            return Object.values(row).some((cellValue) => cellValue.includes ? cellValue.includes(filterValue) : false);
+        });
+    }
+    return rows;
 };
 
 const applyPagination = (
@@ -56,6 +61,9 @@ const MyTable: FC<TableProps> = ({ rows, columns, title }) => {
 
     const [page, setPage] = useState<number>(0);
     const [limit, setLimit] = useState<number>(5);
+    const [filterValue, setFilterValue] = useState<string>("");
+    const [filteredData, setFilteredData] = useState<any[]>(rows);
+    const [paginatedData, setPaginatedData] = useState<any[]>(rows);
 
     const handlePageChange = (event: any, newPage: number): void => {
         setPage(newPage);
@@ -65,36 +73,37 @@ const MyTable: FC<TableProps> = ({ rows, columns, title }) => {
         setLimit(parseInt(event.target.value));
     };
 
-    const filteredData = applyFilters(rows, columns);
-    const paginatedData = applyPagination(
-        filteredData,
-        page,
-        limit
-    );
+    useEffect(() => {
+        setFilteredData(applyFilters(rows, columns, filterValue))
+    }, [rows, columns, filterValue]);
+
+    useEffect(() => {
+        setPaginatedData(applyPagination(
+            filteredData,
+            page,
+            limit
+        ))
+    }, [filteredData, page, limit])
+
     const theme = useTheme();
 
     return (
         <Card>
             <CardHeader
-                // action={
-                //     <Box width={150}>
-                //         <FormControl fullWidth variant="outlined">
-                //             <InputLabel>Status</InputLabel>
-                //             <Select
-                //                 value={filters.status || 'all'}
-                //                 onChange={handleStatusChange}
-                //                 label="Status"
-                //                 autoWidth
-                //             >
-                //                 {statusOptions.map((statusOption) => (
-                //                     <MenuItem key={statusOption.id} value={statusOption.id}>
-                //                         {statusOption.name}
-                //                     </MenuItem>
-                //                 ))}
-                //             </Select>
-                //         </FormControl>
-                //     </Box>
-                // }
+                action={
+                    <Box width={150}>
+                        <FormControl fullWidth variant="outlined">
+                            <TextField
+                                value={filterValue}
+                                onChange={(e) => {
+                                    setFilterValue(e.target.value)
+                                }}
+                                label="Filter"
+                            >
+                            </TextField>
+                        </FormControl>
+                    </Box>
+                }
                 title={title}
             />
             <Divider/>

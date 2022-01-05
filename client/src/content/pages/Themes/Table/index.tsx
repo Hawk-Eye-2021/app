@@ -1,11 +1,24 @@
 import {Helmet} from "react-helmet-async";
 import {Container, Grid} from "@mui/material";
-import RecentOrders from "../../../applications/Transactions/RecentOrders";
-import Footer from "../../../../components/Footer";
 import MyTable from "../../../../components/Table";
 
 
 function ThemesTable() {
+
+    const rows = [
+        {
+            id: "1",
+            name: "Theme 1"
+        },
+        {
+            id: "2",
+            name: "Theme 2"
+        },
+        {
+            id: "3",
+            name: "Theme 3"
+        },
+    ];
 
     return (
         <>
@@ -19,25 +32,13 @@ function ThemesTable() {
                     justifyContent="center"
                     alignItems="stretch"
                     spacing={3}
-                    marginTop={3}
+                    paddingTop={3}
+                    paddingBottom={3}
                 >
                     <Grid item xs={12}>
                         <MyTable title={"Themes"}
                                  columns={[{title: "ID"}, {title: "Name"}]}
-                                 rows={[
-                                     {
-                                         id: "1",
-                                         name: "Theme 1"
-                                     },
-                                     {
-                                         id: "2",
-                                         name: "Theme 2"
-                                     },
-                                     {
-                                         id: "3",
-                                         name: "Theme 3"
-                                     },
-                                 ]}
+                                 rows={rows.concat(rows).concat(rows).concat(rows).concat(rows).concat(rows).concat(rows)}
                         />
                     </Grid>
                 </Grid>

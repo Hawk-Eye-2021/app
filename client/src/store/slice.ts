@@ -11,7 +11,7 @@ export interface RootState {
 
 export const root = createSlice(
     {
-        name: 'root',
+        name: 'user',
         initialState: {
             user: {id: "1", name: "Matias Miodosky"}
         } as RootState,

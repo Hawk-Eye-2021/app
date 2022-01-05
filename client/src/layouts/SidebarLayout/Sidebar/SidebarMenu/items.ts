@@ -34,6 +34,16 @@ const menuItems: MenuItems[] = [
     heading: '',
     items: [
       {
+        name: 'Themes',
+        link: '/app/themes',
+        icon: DesignServicesTwoToneIcon
+      }
+    ]
+  },
+  {
+    heading: '',
+    items: [
+      {
         name: 'Overview',
         link: '/overview',
         icon: DesignServicesTwoToneIcon

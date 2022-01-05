@@ -47,6 +47,8 @@ const Status500 = Loader(lazy(() => import('src/content/pages/Status/Status500')
 const StatusComingSoon = Loader(lazy(() => import('src/content/pages/Status/ComingSoon')));
 const StatusMaintenance = Loader(lazy(() => import('src/content/pages/Status/Maintenance')));
 
+//Themes
+const Themes = Loader(lazy(() => import('src/content/pages/Themes/Table')));
 
 const routes: PartialRouteObject[] = [
   {
@@ -56,6 +58,18 @@ const routes: PartialRouteObject[] = [
       {
         path: '/',
         element: <Overview />
+      },
+      {
+        path: "app",
+        element: (
+            <SidebarLayout />
+        ),
+        children: [
+          {
+            path: '/themes',
+            element: <Themes/>
+          }
+        ]
       },
       {
         path: 'overview',

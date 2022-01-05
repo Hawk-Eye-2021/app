@@ -111,6 +111,7 @@ const MyTable: FC<TableProps> = ({ rows, columns, title }) => {
                                     )
                                 })
                             }
+                            <TableCell align="right">Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

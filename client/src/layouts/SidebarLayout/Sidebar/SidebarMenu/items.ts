@@ -15,7 +15,7 @@ import RedeemTwoToneIcon from '@mui/icons-material/RedeemTwoTone';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 import TrafficTwoToneIcon from '@mui/icons-material/TrafficTwoTone';
 import VerifiedUserTwoToneIcon from '@mui/icons-material/VerifiedUserTwoTone';
-
+import SummarizeTwoToneIcon from '@mui/icons-material/SummarizeTwoTone';
 export interface MenuItem {
   link?: string;
   icon?: ReactNode;
@@ -34,9 +34,9 @@ const menuItems: MenuItems[] = [
     heading: '',
     items: [
       {
-        name: 'Themes',
+        name: 'Temas',
         link: '/app/themes',
-        icon: DesignServicesTwoToneIcon
+        icon: SummarizeTwoToneIcon
       }
     ]
   },

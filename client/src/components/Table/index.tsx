@@ -102,11 +102,11 @@ const MyTable: FC<TableProps> = ({ rows, columns, title, addAction, deleteAction
                                 onChange={(e) => {
                                     setFilterValue(e.target.value)
                                 }}
-                                label="Filter"
+                                label="Filtrar"
                             >
                             </TextField>
                         </FormControl>
-                        <Tooltip title="Add" arrow>
+                        <Tooltip title="Agregar" arrow>
                             <IconButton
                                 sx={{
                                     '&:hover': {
@@ -139,7 +139,7 @@ const MyTable: FC<TableProps> = ({ rows, columns, title, addAction, deleteAction
                                     )
                                 })
                             }
-                            <TableCell align="right">Actions</TableCell>
+                            <TableCell align="right">Acciones</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -167,7 +167,7 @@ const MyTable: FC<TableProps> = ({ rows, columns, title, addAction, deleteAction
                                         })
                                     }
                                     <TableCell align="right">
-                                        <Tooltip title="Details" arrow>
+                                        <Tooltip title="Ver" arrow>
                                             <IconButton
                                                 sx={{
                                                     '&:hover': {
@@ -181,7 +181,7 @@ const MyTable: FC<TableProps> = ({ rows, columns, title, addAction, deleteAction
                                                 <VisibilityTwoToneIcon fontSize="small"/>
                                             </IconButton>
                                         </Tooltip>
-                                        <Tooltip title="Delete" arrow>
+                                        <Tooltip title="Borrar" arrow>
                                             <IconButton
                                                 sx={{
                                                     '&:hover': {background: theme.colors.error.lighter},
@@ -210,6 +210,10 @@ const MyTable: FC<TableProps> = ({ rows, columns, title, addAction, deleteAction
                     page={page}
                     rowsPerPage={limit}
                     rowsPerPageOptions={[5, 10, 25, 30]}
+                    labelDisplayedRows={({from, to, count}) => {
+                        return `${from}-${to} de ${count !== -1 ? count : `mas de ${to}`}`
+                    }}
+                    labelRowsPerPage={'Filas por página:'}
                 />
             </Box>
         </Card>

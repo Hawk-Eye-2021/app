@@ -133,7 +133,7 @@ function HeaderUserbox() {
         <Box sx={{ m: 1 }}>
           <Button color="primary" fullWidth>
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />
-            Sign out
+            Cerrar Sesión
           </Button>
         </Box>
       </Popover>

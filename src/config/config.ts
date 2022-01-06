@@ -13,8 +13,10 @@ const production: Config = {
         url: 'postgres://ipbqaqvcfikisr:9686e8a7238931f4eb2c9276e49a9097363d0081ebb248887a28dd85395d73b1@ec2-54-204-128-96.compute-1.amazonaws.com:5432/d4bcg6ud8fb51c',
         options: {
             dialectOptions: {
-                ssl: true,
-                rejectUnauthorized: false
+                ssl: {
+                    require: true,
+                    rejectUnauthorized: false
+                }
             }
         }
     }

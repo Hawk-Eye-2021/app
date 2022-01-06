@@ -13,12 +13,12 @@ function AddThemeDialog({open, onClose}) {
 
     const addThemeForUser = () => {
         if(value && value.id) {
-            http.post(`/users/${user.id}/themes`, {...value})
+            http.post(`/users/${user.id}/themes`, {themeId: value.id})
                 .then(() => onClose())
         } else {
-            http.post(`/themes`, {...value})
+            http.post(`/themes`, {name: value.name})
                 .then(res => {
-                    http.post(`/users/${user.id}/themes`, {...res.data})
+                    http.post(`/users/${user.id}/themes`, {themeId: res.data.id})
                         .then(() => onClose())
                 })
         }

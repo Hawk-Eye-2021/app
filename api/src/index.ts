@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import usersController from "./controller/usersController";
 import themesController from "./controller/themesController";
 import {sequelize} from './model/sequelize'
@@ -15,6 +16,7 @@ app.listen(port, () => {
     console.log(`Timezones by location application is running on port ${port}.`);
 });
 
+app.use(cors())
 app.use(bodyParser.json())
 
 usersController(app)

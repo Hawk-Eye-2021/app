@@ -1,9 +1,13 @@
+import {useState} from "react";
 import {Helmet} from "react-helmet-async";
 import {Container, Grid} from "@mui/material";
 import MyTable from "../../../../components/Table";
-
+import MyDialog from "../../../../components/Dialog";
+import ThemeAutocomplete from "./ThemeAutocomplete";
 
 function ThemesTable() {
+
+    const [openAddThemeModal, setOpenAddThemeModal] = useState<boolean>(false);
 
     const rows = [
         {
@@ -26,6 +30,14 @@ function ThemesTable() {
                 <title>Themes</title>
             </Helmet>
             <Container maxWidth="lg">
+                <MyDialog title={"Agregar Tema"}
+                          onSubmit={() => console.log("Agregado")}
+                          onClose={() => setOpenAddThemeModal(false)}
+                          open={openAddThemeModal}
+                          width={"sm"}
+                          >
+                    <ThemeAutocomplete/>
+                </MyDialog>
                 <Grid
                     container
                     direction="row"
@@ -39,6 +51,7 @@ function ThemesTable() {
                         <MyTable title={"Themes"}
                                  columns={[{title: "ID"}, {title: "Name"}]}
                                  rows={rows.concat(rows).concat(rows).concat(rows).concat(rows).concat(rows).concat(rows)}
+                                 addAction={() => setOpenAddThemeModal(true)}
                         />
                     </Grid>
                 </Grid>

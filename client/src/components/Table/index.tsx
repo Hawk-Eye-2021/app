@@ -20,8 +20,9 @@ import {
     CardHeader
 } from '@mui/material';
 
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 
 interface IColumn {
     title: string;
@@ -31,7 +32,8 @@ interface TableProps {
     className?: string;
     rows: any[];
     title: string;
-    columns: IColumn[]
+    columns: IColumn[];
+    addAction: () => any
 }
 
 
@@ -57,7 +59,7 @@ const applyPagination = (
     return rows.slice(page * limit, page * limit + limit);
 };
 
-const MyTable: FC<TableProps> = ({ rows, columns, title }) => {
+const MyTable: FC<TableProps> = ({ rows, columns, title, addAction }) => {
 
     const [page, setPage] = useState<number>(0);
     const [limit, setLimit] = useState<number>(5);
@@ -91,7 +93,7 @@ const MyTable: FC<TableProps> = ({ rows, columns, title }) => {
         <Card>
             <CardHeader
                 action={
-                    <Box width={150}>
+                    <Box width={200} display={"flex"} gap={1}>
                         <FormControl fullWidth variant="outlined">
                             <TextField
                                 value={filterValue}
@@ -102,6 +104,21 @@ const MyTable: FC<TableProps> = ({ rows, columns, title }) => {
                             >
                             </TextField>
                         </FormControl>
+                        <Tooltip title="Add" arrow>
+                            <IconButton
+                                sx={{
+                                    '&:hover': {
+                                        background: theme.colors.success.lighter
+                                    },
+                                    color: theme.palette.success.dark
+                                }}
+                                color="inherit"
+                                size="medium"
+                                onClick={addAction}
+                            >
+                                <AddTwoToneIcon fontSize="large"/>
+                            </IconButton>
+                        </Tooltip>
                     </Box>
                 }
                 title={title}
@@ -149,7 +166,7 @@ const MyTable: FC<TableProps> = ({ rows, columns, title }) => {
                                         })
                                     }
                                     <TableCell align="right">
-                                        <Tooltip title="Edit" arrow>
+                                        <Tooltip title="Details" arrow>
                                             <IconButton
                                                 sx={{
                                                     '&:hover': {
@@ -160,7 +177,7 @@ const MyTable: FC<TableProps> = ({ rows, columns, title }) => {
                                                 color="inherit"
                                                 size="small"
                                             >
-                                                <EditTwoToneIcon fontSize="small"/>
+                                                <VisibilityTwoToneIcon fontSize="small"/>
                                             </IconButton>
                                         </Tooltip>
                                         <Tooltip title="Delete" arrow>
@@ -201,6 +218,7 @@ MyTable.propTypes = {
     rows: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
+    addAction: PropTypes.func.isRequired
 };
 
 

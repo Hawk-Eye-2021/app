@@ -3,8 +3,9 @@ import {initUser, UserModel} from "./User";
 import {initTheme, ThemeModel} from "./Theme";
 import {ContentModel, initContent} from "./Content";
 import {initSource, SourceModel} from "./Source";
+import config from "../config/config";
 
-export const sequelize: Sequelize = new Sequelize("postgres://hawkeye:hawkeye@localhost:2345/hawkeye")
+export const sequelize: Sequelize = new Sequelize(config.database.url, config.database.options)
 
 async function syncSchema() {
 

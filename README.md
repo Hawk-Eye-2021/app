@@ -5,9 +5,21 @@
 ### To run database with docker
 
 ```
-docker run --name postgres -e POSTGRES_PASSWORD=password -d postgres -p 2345:5432
+docker compose up -d db 
 ```   
 
+
+### To run api locally
+
+```
+npm run dev
+``` 
+
+### To run api remotely
+
+```
+npm start
+``` 
 
 ### Entities diagram 
 

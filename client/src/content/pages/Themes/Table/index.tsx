@@ -2,8 +2,6 @@ import {useEffect, useState} from "react";
 import {Helmet} from "react-helmet-async";
 import {Container, Grid} from "@mui/material";
 import MyTable from "../../../../components/Table";
-import MyDialog from "../../../../components/Dialog";
-import ThemeAutocomplete from "./ThemeAutocomplete";
 import http from "../../../../http/http";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../store/store";
@@ -19,7 +17,7 @@ function ThemesTable() {
     useEffect(() => {
         http.get(`/users/${user.id}/themes`)
             .then(res => {
-                setThemes(res.data)
+                setThemes(res.data);
             })
     }, [])
 

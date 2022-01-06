@@ -2,28 +2,25 @@ import {useEffect, useState} from "react";
 import {Helmet} from "react-helmet-async";
 import {Container, Grid} from "@mui/material";
 import MyTable from "../../../../components/Table";
-import http from "../../../../http/http";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../store/store";
-import {ThemeDTO} from "../../../../dto/ThemeDTO";
 import AddThemeDialog from "./AddThemeDialog";
+import {deleteTheme, getThemesFromUser} from "../../../../store/slice/theme";
 function ThemesTable() {
 
     const [openAddThemeModal, setOpenAddThemeModal] = useState<boolean>(false);
-    const [themes, setThemes] = useState<ThemeDTO[]>([]);
 
-    const user = useSelector((state: RootState) => state.user);
+    const user = useSelector((state: RootState) => state.user.user);
+    const themeState = useSelector((state: RootState) => state.theme);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        http.get(`/users/${user.id}/themes`)
-            .then(res => {
-                setThemes(res.data);
-            })
+        dispatch(getThemesFromUser(user.id))
     }, [])
 
-    const deleteThemeFromUser = (themeId) => {
-        http.delete(`/users/${user.id}/themes/${themeId}`)
-            .then(() => console.log(`Borrado el tema ${themeId} del usuario ${user.name}`))
+    const deleteThemeFromUser = (theme) => {
+        dispatch(deleteTheme(user.id, theme))
     }
 
     return (
@@ -46,8 +43,9 @@ function ThemesTable() {
                     <Grid item xs={12}>
                         <MyTable title={"Temas"}
                                  columns={[{title: "ID", key: "id"}, {title: "Nombre", key: "name"}]}
-                                 rows={themes}
+                                 rows={themeState.userThemes}
                                  addAction={() => setOpenAddThemeModal(true)}
+                                 deleteAction={deleteThemeFromUser}
                         />
                     </Grid>
                 </Grid>

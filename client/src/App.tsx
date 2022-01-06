@@ -9,6 +9,8 @@ import {CssBaseline} from '@mui/material';
 import {Provider} from "react-redux";
 import store from "./store/store";
 
+import {SnackbarUtilsConfigurator} from "./utils/SnackbarUtils";
+
 const App = () => {
 
     const content = useRoutes(routes);
@@ -21,6 +23,7 @@ const App = () => {
                                   vertical: "bottom",
                                   horizontal: "right"
                               }}>
+                <SnackbarUtilsConfigurator />
                 <ThemeProvider>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <CssBaseline/>

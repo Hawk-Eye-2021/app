@@ -56,7 +56,7 @@ const UserBoxLabel = styled(Typography)(
 
 
 function HeaderUserbox() {
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => state.user.user);
 
   const ref = useRef<any>(null);
   const [isOpen, setOpen] = useState<boolean>(false);

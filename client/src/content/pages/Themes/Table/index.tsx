@@ -45,7 +45,7 @@ function ThemesTable() {
                 >
                     <Grid item xs={12}>
                         <MyTable title={"Temas"}
-                                 columns={[{title: "ID"}, {title: "Nombre"}]}
+                                 columns={[{title: "ID", key: "id"}, {title: "Nombre", key: "name"}]}
                                  rows={themes}
                                  addAction={() => setOpenAddThemeModal(true)}
                         />

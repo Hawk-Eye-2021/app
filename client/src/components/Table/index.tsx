@@ -26,6 +26,7 @@ import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 
 interface IColumn {
     title: string;
+    key: string;
 }
 
 interface TableProps {
@@ -148,7 +149,7 @@ const MyTable: FC<TableProps> = ({ rows, columns, title, addAction }) => {
                                     key={`table-row-${index}`}
                                 >
                                     {
-                                        Object.values(paginatedData[index]).map((cellValue, cellIndex) => {
+                                        columns.map((col, cellIndex) => {
                                             return (
                                                 <TableCell key={`cell-${index}-${cellIndex}`}>
                                                     <Typography
@@ -158,7 +159,7 @@ const MyTable: FC<TableProps> = ({ rows, columns, title, addAction }) => {
                                                         gutterBottom
                                                         noWrap
                                                     >
-                                                        {cellValue}
+                                                        {paginatedData[index][col.key] || ""}
                                                     </Typography>
                                                 </TableCell>
                                             )

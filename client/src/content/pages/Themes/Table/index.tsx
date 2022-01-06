@@ -1,43 +1,41 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Helmet} from "react-helmet-async";
 import {Container, Grid} from "@mui/material";
 import MyTable from "../../../../components/Table";
 import MyDialog from "../../../../components/Dialog";
 import ThemeAutocomplete from "./ThemeAutocomplete";
-
+import http from "../../../../http/http";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../../store/store";
+import {ThemeDTO} from "../../../../dto/ThemeDTO";
+import AddThemeDialog from "./AddThemeDialog";
 function ThemesTable() {
 
     const [openAddThemeModal, setOpenAddThemeModal] = useState<boolean>(false);
+    const [themes, setThemes] = useState<ThemeDTO[]>([]);
 
-    const rows = [
-        {
-            id: "1",
-            name: "Theme 1"
-        },
-        {
-            id: "2",
-            name: "Theme 2"
-        },
-        {
-            id: "3",
-            name: "Theme 3"
-        },
-    ];
+    const user = useSelector((state: RootState) => state.user);
+
+    useEffect(() => {
+        http.get(`/users/${user.id}/themes`)
+            .then(res => {
+                setThemes(res.data)
+            })
+    }, [])
+
+    const deleteThemeFromUser = (themeId) => {
+        http.delete(`/users/${user.id}/themes/${themeId}`)
+            .then(() => console.log(`Borrado el tema ${themeId} del usuario ${user.name}`))
+    }
 
     return (
         <>
             <Helmet>
-                <title>Themes</title>
+                <title>Temas</title>
             </Helmet>
             <Container maxWidth="lg">
-                <MyDialog title={"Agregar Tema"}
-                          onSubmit={() => console.log("Agregado")}
-                          onClose={() => setOpenAddThemeModal(false)}
-                          open={openAddThemeModal}
-                          width={"sm"}
-                          >
-                    <ThemeAutocomplete/>
-                </MyDialog>
+                <AddThemeDialog open={openAddThemeModal}
+                                onClose={() => setOpenAddThemeModal(false)}/>
                 <Grid
                     container
                     direction="row"
@@ -48,9 +46,9 @@ function ThemesTable() {
                     paddingBottom={3}
                 >
                     <Grid item xs={12}>
-                        <MyTable title={"Themes"}
-                                 columns={[{title: "ID"}, {title: "Name"}]}
-                                 rows={rows.concat(rows).concat(rows).concat(rows).concat(rows).concat(rows).concat(rows)}
+                        <MyTable title={"Temas"}
+                                 columns={[{title: "ID"}, {title: "Nombre"}]}
+                                 rows={themes}
                                  addAction={() => setOpenAddThemeModal(true)}
                         />
                     </Grid>

@@ -1,8 +1,10 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import {useEffect, useState} from "react";
+import http from "../../../../http/http";
 
-interface ThemeOptionType {
+export interface ThemeOptionType {
     id?: string;
     name:string;
     inputValue?: string;
@@ -10,43 +12,24 @@ interface ThemeOptionType {
 
 const filter = createFilterOptions<ThemeOptionType>();
 
-const dummyOptions: readonly ThemeOptionType[]= [
-    {
-        id: "1",
-        name: "Theme 1"
-    },
-    {
-        id: "2",
-        name: "Theme 2"
-    },
-    {
-        id: "3",
-        name: "Theme 3"
-    },
-    {
-        name: "Hello"
-    }
-]
-export default function ThemeAutocomplete() {
-    const [value, setValue] = React.useState<ThemeOptionType | null>(null);
+export default function ThemeAutocomplete({onChange, value}) {
+    const [themes, setThemes] = useState<ThemeOptionType[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+
+    useEffect(() => {
+        setLoading(true)
+        http.get(`/themes`)
+            .then(res => {
+                setThemes(res.data)
+                setLoading(false)
+            })
+    }, [])
 
     return (
         <Autocomplete
             value={value}
-            onChange={(event, newValue) => {
-                if (typeof newValue === 'string') {
-                    setValue({
-                        name: newValue,
-                    });
-                } else if (newValue && newValue.inputValue) {
-                    // Create a new value from the user input
-                    setValue({
-                        name: newValue.inputValue,
-                    });
-                } else {
-                    setValue(newValue);
-                }
-            }}
+            loading={loading}
+            onChange={onChange}
             filterOptions={(options, params) => {
                 const filtered = filter(options, params);
 
@@ -65,7 +48,7 @@ export default function ThemeAutocomplete() {
             selectOnFocus
             clearOnBlur
             handleHomeEndKeys
-            options={dummyOptions}
+            options={themes}
             getOptionLabel={(option) => {
                 // Value selected with enter, right from the input
                 if (typeof option === 'string') {

@@ -145,23 +145,22 @@ const MyTable: FC<TableProps> = ({ rows, columns, title, addAction }) => {
                             return (
                                 <TableRow
                                     hover
+                                    key={`table-row-${index}`}
                                 >
                                     {
-                                        Object.values(paginatedData[index]).map(cellValue => {
+                                        Object.values(paginatedData[index]).map((cellValue, cellIndex) => {
                                             return (
-                                                <>
-                                                    <TableCell>
-                                                        <Typography
-                                                            variant="body1"
-                                                            fontWeight="bold"
-                                                            color="text.primary"
-                                                            gutterBottom
-                                                            noWrap
-                                                        >
-                                                            {cellValue}
-                                                        </Typography>
-                                                    </TableCell>
-                                                </>
+                                                <TableCell key={`cell-${index}-${cellIndex}`}>
+                                                    <Typography
+                                                        variant="body1"
+                                                        fontWeight="bold"
+                                                        color="text.primary"
+                                                        gutterBottom
+                                                        noWrap
+                                                    >
+                                                        {cellValue}
+                                                    </Typography>
+                                                </TableCell>
                                             )
                                         })
                                     }

@@ -2,12 +2,11 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import Button from "@mui/material/Button";
 
 import PropTypes from 'prop-types';
 
 
-function MyDialog({open, onClose, onSubmit, title, children, width}) {
+function MyDialog({open, onClose, title, children, width, actions}) {
 
     return (
         <Dialog onClose={onClose}
@@ -21,12 +20,7 @@ function MyDialog({open, onClose, onSubmit, title, children, width}) {
                 {children}
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClose} color={"secondary"}>
-                    Cancelar
-                </Button>
-                <Button onClick={onSubmit}>
-                    Agregar
-                </Button>
+                {actions}
             </DialogActions>
         </Dialog>
     )
@@ -35,8 +29,8 @@ function MyDialog({open, onClose, onSubmit, title, children, width}) {
 MyDialog.propTypes = {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
-    width: PropTypes.oneOf(['xm', 'sm', "md", "lg", "xl"]).isRequired
+    width: PropTypes.oneOf(['xm', 'sm', "md", "lg", "xl"]).isRequired,
+    actions: PropTypes.node
 }
 export default MyDialog

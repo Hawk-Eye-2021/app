@@ -74,33 +74,36 @@ function Contents({themeId, themeName}) {
                 {
                     dummyContents.concat(dummyContents).concat(dummyContents).concat(dummyContents).concat(dummyContents).concat(dummyContents).map((content, index) => {
                         return (
-                            <Accordion key={`accordion-${index}`}>
-                                <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls={`panel-content-${content.id}`}
-                                    id={`panel-content-${content.id}`}
-                                >
-                                    <div className={"contentTitle"}>
-                                        <div className={"title"}>
-                                            <Tooltip title={content.title}>
-                                                <Typography className={"truncate"}>
-                                                    {content.title}
+                            <>
+                                <Accordion key={`accordion-${index}`}>
+                                    <AccordionSummary
+                                        expandIcon={<ExpandMoreIcon />}
+                                        aria-controls={`panel-content-${content.id}`}
+                                        id={`panel-content-${content.id}`}
+                                    >
+                                        <div className={"contentTitle"}>
+                                            <div className={"title"}>
+                                                <Tooltip title={content.title}>
+                                                    <Typography className={"truncate"}>
+                                                        {content.title}
+                                                    </Typography>
+                                                </Tooltip>
+                                            </div>
+                                            <div className={"sentiment"}>
+                                                <Typography>
+                                                    {getSentimentLabel(content.sentiments)}
                                                 </Typography>
-                                            </Tooltip>
+                                            </div>
                                         </div>
-                                        <div className={"sentiment"}>
-                                            <Typography>
-                                                {getSentimentLabel(content.sentiments)}
-                                            </Typography>
-                                        </div>
-                                    </div>
-                                </AccordionSummary>
-                                <AccordionDetails>
-                                    <Typography>
-                                        {content.url}
-                                    </Typography>
-                                </AccordionDetails>
-                            </Accordion>
+                                    </AccordionSummary>
+                                    <AccordionDetails>
+                                        <Typography>
+                                            {content.url}
+                                        </Typography>
+                                    </AccordionDetails>
+                                </Accordion>
+                                <Divider />
+                            </>
                         )
                     })
                 }

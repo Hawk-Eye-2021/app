@@ -6,7 +6,8 @@ import {STORE_STATUS_CONSTANTS} from "../store";
 import SnackbarUtils from 'src/utils/SnackbarUtils'
 export interface ThemeState {
     userThemes: ThemeDTO[];
-    getUserThemesStatus: string;
+    getUserThemesStatus: STORE_STATUS_CONSTANTS;
+    selectedTheme: ThemeDTO | null
 }
 
 export const theme = createSlice(
@@ -14,7 +15,8 @@ export const theme = createSlice(
         name: 'theme',
         initialState: {
             userThemes: [],
-            getUserThemesStatus: 'loading'
+            getUserThemesStatus: 'loading',
+            selectedTheme: {id: "1", name: "Mauricio Macri"}
         } as ThemeState,
         reducers: {
             setUserThemes: (state, action) => {
@@ -28,6 +30,9 @@ export const theme = createSlice(
             },
             setUserThemesStatus: (state, action) => {
                 state.getUserThemesStatus = action.payload
+            },
+            selectTheme: (state, action) => {
+                state.selectedTheme = action.payload
             }
         }
     }
@@ -37,10 +42,10 @@ export const getThemesFromUser = (id: string) => (dispatch) => {
     http.get(`/users/${id}/themes`)
         .then(res => {
             dispatch(theme.actions.setUserThemes(res.data))
-            dispatch(theme.actions.setUserThemesStatus(STORE_STATUS_CONSTANTS.SUCCESS))
+            dispatch(theme.actions.setUserThemesStatus('success'))
         })
         .catch(() => {
-            dispatch(theme.actions.setUserThemesStatus(STORE_STATUS_CONSTANTS.ERROR))
+            dispatch(theme.actions.setUserThemesStatus('error'))
         })
 }
 
@@ -48,8 +53,8 @@ export const postTheme = (userId, value, closeModal) => (dispatch) => {
     if (value && value.id) {
         http.post(`/users/${userId}/themes`, {themeId: value.id})
             .then(() => {
-                closeModal();
                 dispatch(theme.actions.addUserTheme({...value}))
+                closeModal();
                 SnackbarUtils.success("Se agregó el tema exitosamente!")
             })
             .catch(() => {
@@ -60,13 +65,16 @@ export const postTheme = (userId, value, closeModal) => (dispatch) => {
             .then(res => {
                 http.post(`/users/${userId}/themes`, {themeId: res.data.id})
                     .then(() => {
-                        closeModal();
                         dispatch(theme.actions.addUserTheme(res.data))
+                        closeModal();
                         SnackbarUtils.success("Se agregó el tema exitosamente!")
                     })
                     .catch(() => {
                         SnackbarUtils.error("Ocurrió un error al agregar el tema!")
                     })
+            })
+            .catch(() => {
+                SnackbarUtils.error("Ocurrió un error al agregar el tema!")
             })
     }
 }
@@ -80,4 +88,8 @@ export const deleteTheme = (userId, themeToDelete) => (dispatch) => {
         .catch(() => {
             SnackbarUtils.error(`Ocurrió un error al borrar el tema ${themeToDelete.name}`)
         })
+}
+
+export const viewTheme = (selectedTheme) => (dispatch) => {
+    dispatch(theme.actions.selectTheme(selectedTheme))
 }

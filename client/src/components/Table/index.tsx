@@ -36,6 +36,7 @@ interface TableProps {
     columns: IColumn[];
     addAction: () => any;
     deleteAction: (itemToDelete: any) => any;
+    viewAction: (itemToView: any) => any;
 }
 
 
@@ -61,7 +62,7 @@ const applyPagination = (
     return rows.slice(page * limit, page * limit + limit);
 };
 
-const MyTable: FC<TableProps> = ({ rows, columns, title, addAction, deleteAction }) => {
+const MyTable: FC<TableProps> = ({ rows, columns, title, addAction, deleteAction, viewAction }) => {
 
     const [page, setPage] = useState<number>(0);
     const [limit, setLimit] = useState<number>(5);
@@ -177,6 +178,7 @@ const MyTable: FC<TableProps> = ({ rows, columns, title, addAction, deleteAction
                                                 }}
                                                 color="inherit"
                                                 size="small"
+                                                onClick={() => viewAction(paginatedData[index])}
                                             >
                                                 <VisibilityTwoToneIcon fontSize="small"/>
                                             </IconButton>
@@ -225,7 +227,8 @@ MyTable.propTypes = {
     columns: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
     addAction: PropTypes.func.isRequired,
-    deleteAction: PropTypes.func.isRequired
+    deleteAction: PropTypes.func.isRequired,
+    viewAction: PropTypes.func.isRequired
 };
 
 

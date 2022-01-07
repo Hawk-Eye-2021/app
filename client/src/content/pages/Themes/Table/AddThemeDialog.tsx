@@ -1,7 +1,6 @@
 import MyDialog from "../../../../components/Dialog";
 import ThemeAutocomplete, {ThemeOptionType} from "./ThemeAutocomplete";
 import Button from "@mui/material/Button";
-import http from "../../../../http/http";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../store/store";
 import * as React from "react";

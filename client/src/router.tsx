@@ -49,6 +49,7 @@ const StatusMaintenance = Loader(lazy(() => import('src/content/pages/Status/Mai
 
 //Themes
 const Themes = Loader(lazy(() => import('src/content/pages/Themes/Table')));
+const ThemeDetail = Loader(lazy(() => import('src/content/pages/Themes/Detail')));
 
 const routes: PartialRouteObject[] = [
   {
@@ -67,7 +68,11 @@ const routes: PartialRouteObject[] = [
         children: [
           {
             path: '/themes',
-            element: <Themes/>
+            element: <Themes/>,
+          },
+          {
+            path: "/theme/detail",
+            element: <ThemeDetail/>
           }
         ]
       },

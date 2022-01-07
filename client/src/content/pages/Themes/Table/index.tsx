@@ -5,7 +5,9 @@ import MyTable from "../../../../components/Table";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../store/store";
 import AddThemeDialog from "./AddThemeDialog";
-import {deleteTheme, getThemesFromUser} from "../../../../store/slice/theme";
+import {deleteTheme, getThemesFromUser, viewTheme} from "../../../../store/slice/theme";
+import { useNavigate } from "react-router-dom";
+
 function ThemesTable() {
 
     const [openAddThemeModal, setOpenAddThemeModal] = useState<boolean>(false);
@@ -13,14 +15,21 @@ function ThemesTable() {
     const user = useSelector((state: RootState) => state.user.user);
     const themeState = useSelector((state: RootState) => state.theme);
 
+    const navigate = useNavigate();
+
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getThemesFromUser(user.id))
     }, [])
 
-    const deleteThemeFromUser = (theme) => {
+    const handleDeleteTheme = (theme) => {
         dispatch(deleteTheme(user.id, theme))
+    }
+
+    const handleViewTheme = (theme) => {
+        dispatch(viewTheme(theme));
+        navigate('/app/theme/detail')
     }
 
     return (
@@ -45,7 +54,8 @@ function ThemesTable() {
                                  columns={[{title: "ID", key: "id"}, {title: "Nombre", key: "name"}]}
                                  rows={themeState.userThemes}
                                  addAction={() => setOpenAddThemeModal(true)}
-                                 deleteAction={deleteThemeFromUser}
+                                 deleteAction={handleDeleteTheme}
+                                 viewAction={handleViewTheme}
                         />
                     </Grid>
                 </Grid>

@@ -16,8 +16,4 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 export default store
 
-export const STORE_STATUS_CONSTANTS = {
-    LOADING: 'loading',
-    ERROR: 'error',
-    SUCCESS: 'success'
-}
+export type STORE_STATUS_CONSTANTS = 'loading' | 'error' | 'success'

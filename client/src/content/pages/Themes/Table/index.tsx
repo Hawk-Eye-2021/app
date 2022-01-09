@@ -2,30 +2,34 @@ import {useEffect, useState} from "react";
 import {Helmet} from "react-helmet-async";
 import {Container, Grid} from "@mui/material";
 import MyTable from "../../../../components/Table";
-import MyDialog from "../../../../components/Dialog";
-import ThemeAutocomplete from "./ThemeAutocomplete";
-import http from "../../../../http/http";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../store/store";
-import {ThemeDTO} from "../../../../dto/ThemeDTO";
 import AddThemeDialog from "./AddThemeDialog";
+import {deleteTheme, getThemesFromUser, viewTheme} from "../../../../store/slice/theme";
+import { useNavigate } from "react-router-dom";
+
 function ThemesTable() {
 
     const [openAddThemeModal, setOpenAddThemeModal] = useState<boolean>(false);
-    const [themes, setThemes] = useState<ThemeDTO[]>([]);
 
-    const user = useSelector((state: RootState) => state.user);
+    const user = useSelector((state: RootState) => state.user.user);
+    const themeState = useSelector((state: RootState) => state.theme);
+
+    const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        http.get(`/users/${user.id}/themes`)
-            .then(res => {
-                setThemes(res.data)
-            })
+        dispatch(getThemesFromUser(user.id))
     }, [])
 
-    const deleteThemeFromUser = (themeId) => {
-        http.delete(`/users/${user.id}/themes/${themeId}`)
-            .then(() => console.log(`Borrado el tema ${themeId} del usuario ${user.name}`))
+    const handleDeleteTheme = (theme) => {
+        dispatch(deleteTheme(user.id, theme))
+    }
+
+    const handleViewTheme = (theme) => {
+        dispatch(viewTheme(theme));
+        navigate('/app/theme/detail')
     }
 
     return (
@@ -47,9 +51,11 @@ function ThemesTable() {
                 >
                     <Grid item xs={12}>
                         <MyTable title={"Temas"}
-                                 columns={[{title: "ID"}, {title: "Nombre"}]}
-                                 rows={themes}
+                                 columns={[{title: "ID", key: "id"}, {title: "Nombre", key: "name"}]}
+                                 rows={themeState.userThemes}
                                  addAction={() => setOpenAddThemeModal(true)}
+                                 deleteAction={handleDeleteTheme}
+                                 viewAction={handleViewTheme}
                         />
                     </Grid>
                 </Grid>

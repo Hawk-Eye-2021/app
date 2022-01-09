@@ -1,16 +1,19 @@
 import {configureStore} from "@reduxjs/toolkit";
-import {root} from "./slice"
-import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
+import {user} from "./slice/user"
+import {theme} from "./slice/theme"
+import {TypedUseSelectorHook, useSelector} from "react-redux";
 
-const store = configureStore({reducer: root.reducer})
+const store = configureStore({
+    reducer: {
+        user: user.reducer,
+        theme: theme.reducer,
+    }
+})
 
 export type RootState = ReturnType<typeof store.getState>
 
-export type AppDispatch = typeof store.dispatch
-
-export const useAppDispatch = () => useDispatch<AppDispatch>() // Export a hook that can be reused to resolve types
-
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
-
 export default store
+
+export type STORE_STATUS_CONSTANTS = 'loading' | 'error' | 'success'

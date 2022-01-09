@@ -9,7 +9,7 @@ export interface RootState {
     user: User | null,
 }
 
-export const root = createSlice(
+export const user = createSlice(
     {
         name: 'user',
         initialState: {
@@ -17,7 +17,7 @@ export const root = createSlice(
         } as RootState,
         reducers: {
             setUser: (state, action) => {
-                state.user = action.payload
+                state.user = {...state.user, ...action.payload}
             }
         }
     }

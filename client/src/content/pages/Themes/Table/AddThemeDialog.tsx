@@ -1,27 +1,19 @@
 import MyDialog from "../../../../components/Dialog";
 import ThemeAutocomplete, {ThemeOptionType} from "./ThemeAutocomplete";
 import Button from "@mui/material/Button";
-import http from "../../../../http/http";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../store/store";
 import * as React from "react";
+import {postTheme} from "../../../../store/slice/theme";
 
 
 function AddThemeDialog({open, onClose}) {
-    const user = useSelector((state: RootState) => state.user);
+    const user = useSelector((state: RootState) => state.user.user);
     const [value, setValue] = React.useState<ThemeOptionType | null>(null);
 
+    const dispatch = useDispatch();
     const addThemeForUser = () => {
-        if(value && value.id) {
-            http.post(`/users/${user.id}/themes`, {...value})
-                .then(() => onClose())
-        } else {
-            http.post(`/themes`, {...value})
-                .then(res => {
-                    http.post(`/users/${user.id}/themes`, {...res.data})
-                        .then(() => onClose())
-                })
-        }
+        dispatch(postTheme(user.id, value, onClose))
     }
 
     const onAutocompleteChange = (event, newValue) => {

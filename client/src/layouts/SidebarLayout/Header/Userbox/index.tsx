@@ -56,7 +56,7 @@ const UserBoxLabel = styled(Typography)(
 
 
 function HeaderUserbox() {
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => state.user.user);
 
   const ref = useRef<any>(null);
   const [isOpen, setOpen] = useState<boolean>(false);
@@ -133,7 +133,7 @@ function HeaderUserbox() {
         <Box sx={{ m: 1 }}>
           <Button color="primary" fullWidth>
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />
-            Sign out
+            Cerrar Sesión
           </Button>
         </Box>
       </Popover>

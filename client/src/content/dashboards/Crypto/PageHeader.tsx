@@ -4,7 +4,7 @@ import {useAppSelector} from "../../../store/store";
 
 function PageHeader() {
 
-  const user = useAppSelector((state => state.user));
+  const user = useAppSelector((state => state.user.user));
 
   const theme = useTheme();
 

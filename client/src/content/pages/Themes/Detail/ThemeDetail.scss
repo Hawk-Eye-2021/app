@@ -1,0 +1,55 @@
+
+.gridContainer {
+  margin: 0;
+  height: 85vh;
+  width: 100%;
+  .gridItem {
+    height: 100%;
+
+    .graph-wrapper {
+      width: 100%;
+      height: 50%;
+      border-radius: 6px;
+    }
+  }
+}
+
+.contents-card {
+  height: 100%;
+  position: relative;
+
+  .card-body {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-top: 53px;
+    padding: 0 16px;
+    width: 100%;
+    overflow-y: scroll;
+
+    .contentTitle {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+
+      .title {
+        max-width: 20rem;
+
+        .truncate {
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+      }
+
+      .sentiment {
+
+      }
+    }
+  }
+}
+
+.graph-card {
+  height: 50%;
+  width: 100%;
+}

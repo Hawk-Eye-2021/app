@@ -26,6 +26,7 @@ import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 
 interface IColumn {
     title: string;
+    key: string;
 }
 
 interface TableProps {
@@ -33,7 +34,9 @@ interface TableProps {
     rows: any[];
     title: string;
     columns: IColumn[];
-    addAction: () => any
+    addAction: () => any;
+    deleteAction: (itemToDelete: any) => any;
+    viewAction: (itemToView: any) => any;
 }
 
 
@@ -59,7 +62,7 @@ const applyPagination = (
     return rows.slice(page * limit, page * limit + limit);
 };
 
-const MyTable: FC<TableProps> = ({ rows, columns, title, addAction }) => {
+const MyTable: FC<TableProps> = ({ rows, columns, title, addAction, deleteAction, viewAction }) => {
 
     const [page, setPage] = useState<number>(0);
     const [limit, setLimit] = useState<number>(5);
@@ -100,11 +103,11 @@ const MyTable: FC<TableProps> = ({ rows, columns, title, addAction }) => {
                                 onChange={(e) => {
                                     setFilterValue(e.target.value)
                                 }}
-                                label="Filter"
+                                label="Filtrar"
                             >
                             </TextField>
                         </FormControl>
-                        <Tooltip title="Add" arrow>
+                        <Tooltip title="Agregar" arrow>
                             <IconButton
                                 sx={{
                                     '&:hover': {
@@ -137,7 +140,7 @@ const MyTable: FC<TableProps> = ({ rows, columns, title, addAction }) => {
                                     )
                                 })
                             }
-                            <TableCell align="right">Actions</TableCell>
+                            <TableCell align="right">Acciones</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -148,7 +151,7 @@ const MyTable: FC<TableProps> = ({ rows, columns, title, addAction }) => {
                                     key={`table-row-${index}`}
                                 >
                                     {
-                                        Object.values(paginatedData[index]).map((cellValue, cellIndex) => {
+                                        columns.map((col, cellIndex) => {
                                             return (
                                                 <TableCell key={`cell-${index}-${cellIndex}`}>
                                                     <Typography
@@ -158,14 +161,14 @@ const MyTable: FC<TableProps> = ({ rows, columns, title, addAction }) => {
                                                         gutterBottom
                                                         noWrap
                                                     >
-                                                        {cellValue}
+                                                        {paginatedData[index][col.key] || ""}
                                                     </Typography>
                                                 </TableCell>
                                             )
                                         })
                                     }
                                     <TableCell align="right">
-                                        <Tooltip title="Details" arrow>
+                                        <Tooltip title="Ver" arrow>
                                             <IconButton
                                                 sx={{
                                                     '&:hover': {
@@ -175,11 +178,12 @@ const MyTable: FC<TableProps> = ({ rows, columns, title, addAction }) => {
                                                 }}
                                                 color="inherit"
                                                 size="small"
+                                                onClick={() => viewAction(paginatedData[index])}
                                             >
                                                 <VisibilityTwoToneIcon fontSize="small"/>
                                             </IconButton>
                                         </Tooltip>
-                                        <Tooltip title="Delete" arrow>
+                                        <Tooltip title="Borrar" arrow>
                                             <IconButton
                                                 sx={{
                                                     '&:hover': {background: theme.colors.error.lighter},
@@ -187,6 +191,7 @@ const MyTable: FC<TableProps> = ({ rows, columns, title, addAction }) => {
                                                 }}
                                                 color="inherit"
                                                 size="small"
+                                                onClick={() => deleteAction(paginatedData[index])}
                                             >
                                                 <DeleteTwoToneIcon fontSize="small"/>
                                             </IconButton>
@@ -207,6 +212,10 @@ const MyTable: FC<TableProps> = ({ rows, columns, title, addAction }) => {
                     page={page}
                     rowsPerPage={limit}
                     rowsPerPageOptions={[5, 10, 25, 30]}
+                    labelDisplayedRows={({from, to, count}) => {
+                        return `${from}-${to} de ${count !== -1 ? count : `mas de ${to}`}`
+                    }}
+                    labelRowsPerPage={'Filas por página:'}
                 />
             </Box>
         </Card>
@@ -217,7 +226,9 @@ MyTable.propTypes = {
     rows: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
-    addAction: PropTypes.func.isRequired
+    addAction: PropTypes.func.isRequired,
+    deleteAction: PropTypes.func.isRequired,
+    viewAction: PropTypes.func.isRequired
 };
 
 

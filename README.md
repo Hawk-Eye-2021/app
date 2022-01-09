@@ -26,3 +26,10 @@ npm start
 Entities are described here: [Entities diagram](/entities.txt)
 
 To visualize them, dump them here: [Plan to text](https://www.planttext.com/)
+
+
+### Sequence diagram
+
+Process sequence is described here: [Sequence diagram](/sequence.txt)
+
+To visualize them, dump them here: [Plan to text](https://www.planttext.com/)

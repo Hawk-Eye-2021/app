@@ -1,0 +1,28 @@
+@startuml
+
+title "Messages - Sequence Diagram"
+
+
+
+control "CRON (Every 5 minutes)" as cron
+actor scrapper
+actor API
+actor EE
+actor ABSA
+
+
+
+
+cron -> scrapper : Start scrapp
+scrapper -> API: Create content (if not exist)
+
+scrapper -> EE: Get entities
+
+
+scrapper -> ABSA: GEt sentiments
+
+
+scrapper -> API: Create themes (If not exist)
+scrapper -> API: Add contents to themes
+
+@enduml

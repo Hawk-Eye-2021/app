@@ -6,7 +6,7 @@ export function handled(fn: (req: Request, res: Response) => Promise<void>) {
         fn(req, res)
             .catch(e => {
                 if (e instanceof APIError) {
-                    return res.status(e.status).send(e.message)
+                    return res.status(e.status).send({message: e.message})
                 } else {
                     console.error(e)
                     return res.status(500).send('unknown error')

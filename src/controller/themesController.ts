@@ -12,7 +12,8 @@ const themesController = (app: Express) => {
     }));
 
     app.get('/themes', handled(async (req, res) => {
-        await themesService.getThemes()
+        const name = req.query.name?.toString()
+        await themesService.getThemes({name})
             .then(themes => themes.map(toThemeDTO))
             .then(dto => res.send(dto))
     }));

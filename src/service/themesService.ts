@@ -4,8 +4,8 @@ import * as themesRepository from "../repository/themesRepository";
 import * as contentsService from "../service/contentsService"
 
 
-export async function getThemes(): Promise<Theme[]> {
-    return themesRepository.findAll()
+export async function getThemes(filters: {name?: string}): Promise<Theme[]> {
+    return themesRepository.findAll(filters)
 }
 
 export async function getThemeById(id: string): Promise<Theme> {

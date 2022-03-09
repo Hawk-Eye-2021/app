@@ -15,10 +15,11 @@ export async function findOne({id, name}: { id?: string, name?: string }): Promi
     )
 }
 
-export async function findAll(): Promise<Theme[]> {
+export async function findAll(filters: {name?: string}): Promise<Theme[]> {
     return ThemeModel.findAll({
         where: {
-            deleted: false
+            deleted: false,
+            ...(filters.name ? {name: filters.name} : {})
         }
     })
 }

@@ -36,11 +36,11 @@ export async function initContent(sequelize: Sequelize) {
                 primaryKey: true,
             },
             title: {
-                type: new DataTypes.STRING(128),
+                type: new DataTypes.STRING(1024),
                 allowNull: false,
             },
             url: {
-                type: new DataTypes.STRING(128),
+                type: new DataTypes.STRING(1024),
                 allowNull: false,
             },
             deleted: {

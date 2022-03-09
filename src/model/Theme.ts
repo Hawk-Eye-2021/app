@@ -43,7 +43,7 @@ export async function initTheme(sequelize: Sequelize) {
                 primaryKey: true,
             },
             name: {
-                type: new DataTypes.STRING(128),
+                type: new DataTypes.STRING(1024),
                 allowNull: false,
             },
             deleted: {

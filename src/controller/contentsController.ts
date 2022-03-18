@@ -11,7 +11,8 @@ const usersController = (app: Express) => {
     }));
 
     app.get('/contents', handled(async (req, res) => {
-        await contentsService.getContents()
+        const url = req.params.url?.toString()
+        await contentsService.getContents({url})
             .then(users => users.map(toContentDTO))
             .then(dto => res.send(dto))
     }));

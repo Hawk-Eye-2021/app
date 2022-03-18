@@ -1,9 +1,10 @@
 import {Content, ContentModel} from "../model/Content";
 
-export async function findAll() {
+export async function findAll(filters: { url?: string }) {
     return ContentModel.findAll({
         where: {
-            deleted: false
+            deleted: false,
+            ...(filters.url && {url: filters.url})
         }
     })
 }

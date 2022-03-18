@@ -39,7 +39,7 @@ export async function getContentById  (id: string): Promise<Content> {
     return content
 }
 
-export async function getContents(): Promise<Content[]> {
-    return contentsRepository.findAll()
+export async function getContents(filters: { url?: string }): Promise<Content[]> {
+    return contentsRepository.findAll(filters)
 }
 

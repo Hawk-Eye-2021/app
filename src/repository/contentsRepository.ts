@@ -1,4 +1,6 @@
 import {Content, ContentModel} from "../model/Content";
+import {ContentThemesModel} from "../model/ContentThemes";
+import {ThemeModel} from "../model/Theme";
 
 export async function findAll(filters: { url?: string }) {
     return ContentModel.findAll({
@@ -18,9 +20,6 @@ export async function create(content: Content) {
 export async function deleteContent(content: Content) {
     const contentModel = content as ContentModel
     await contentModel.update({deleted: true})
-
-    const themes = await contentModel.getThemes()
-    await Promise.all(themes.map(theme => contentModel.removeThemes(theme)))
 }
 
 
@@ -31,6 +30,14 @@ export async function findOne({id, url}: { id?: string, url?: string }): Promise
             deleted: false,
             ...(id && {id}),
             ...(url && {url})
+        },
+        include: {
+            model: ContentThemesModel,
+            as: 'themes',
+            include: [{
+                model: ThemeModel,
+                as: 'theme'
+            }]
         }
     })
 }

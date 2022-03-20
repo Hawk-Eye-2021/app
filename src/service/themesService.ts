@@ -2,9 +2,11 @@ import {Theme} from "../model/Theme";
 import {APIError} from "../errorHandler/errorHandler";
 import * as themesRepository from "../repository/themesRepository";
 import * as contentsService from "../service/contentsService"
+import * as contentThemesRepository from "../repository/contentThemesRepository"
+import {ContentThemes} from "../model/ContentThemes";
 
 
-export async function getThemes(filters: {name?: string}): Promise<Theme[]> {
+export async function getThemes(filters: { name?: string }): Promise<Theme[]> {
     return themesRepository.findAll(filters)
 }
 
@@ -36,28 +38,32 @@ export async function deleteTheme(id: string): Promise<Theme> {
 
 // themes <> contents
 
-export async function addContentToTheme(themeId: string, {contentId}: {contentId: string}) {
+export async function addContentToTheme(themeId: string, {contentId, sentiment}: { contentId: string, sentiment: string }): Promise<ContentThemes[]> {
     const theme = await getThemeById(themeId)
-    if (!theme){
+    if (!theme) {
         throw new APIError(404, 'Theme not found')
     }
 
     const content = await contentsService.getContentById(contentId)
-    if(!content){
+    if (!content) {
         throw new APIError(404, 'Content not found')
     }
 
-    await themesRepository.addContent(theme, content)
+    const existentContentThemes = await contentThemesRepository.findForContentAndTheme(contentId, themeId)
+    if (existentContentThemes){
+        throw new APIError(400, 'content already exists on theme')
+    }
 
-    return themesRepository.findAllContentsForTheme(theme)
+    await contentThemesRepository.create(theme.id, content.id, sentiment)
+    return await contentThemesRepository.findAllForTheme(theme.id)
 }
 
-export async function getContentsByTheme(id: string) {
-    const theme  = await themesRepository.findOne({id})
+export async function getContentsByTheme(id: string): Promise<ContentThemes[]> {
+    const theme = await themesRepository.findOne({id})
 
-    if(!theme){
+    if (!theme) {
         throw new APIError(404, 'Theme not found')
     }
 
-    return themesRepository.findAllContentsForTheme(theme)
+    return await contentThemesRepository.findAllForTheme(theme.id)
 }

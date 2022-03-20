@@ -1,6 +1,6 @@
-import {DataTypes, HasManyGetAssociationsMixin, HasManyRemoveAssociationMixin, Model, Sequelize} from "sequelize";
+import {DataTypes, Model, Sequelize} from "sequelize";
 import {SourceModel} from "./Source";
-import {ThemeModel} from "./Theme";
+import {ContentThemes} from "./ContentThemes";
 
 export interface Content {
     id: string
@@ -8,6 +8,7 @@ export interface Content {
     url: string
     sourceId: string
     deleted?: boolean
+    themes?: ContentThemes[]
 }
 
 export interface CreationContent {
@@ -22,8 +23,6 @@ export class ContentModel extends Model<Content, CreationContent> implements Con
     public url!: string;
     public deleted!: boolean;
     public sourceId!: string
-    public removeThemes!: HasManyRemoveAssociationMixin<ThemeModel, string>
-    public getThemes!: HasManyGetAssociationsMixin<ThemeModel>
 }
 
 

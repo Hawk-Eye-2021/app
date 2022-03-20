@@ -1,7 +1,9 @@
 import {Content} from "../model/Content";
 import * as contentsRepository from "../repository/contentsRepository"
+import * as contentThemesRepository from "../repository/contentThemesRepository"
 import {APIError} from "../errorHandler/errorHandler";
 import * as sourcesService from "./sourcesService"
+import {ContentThemes} from "../model/ContentThemes";
 
 export async function deleteContent (id: string): Promise<Content> {
     const content = await contentsRepository.findOne({id})

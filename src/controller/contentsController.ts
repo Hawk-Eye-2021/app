@@ -1,17 +1,17 @@
 import {Express} from "express";
 import {handled} from "../errorHandler/errorHandler";
 import * as contentsService from "../service/contentsService"
-import {toContentDTO} from "../mapper/ContentsMapper";
+import {toContentDetailDTO, toContentDTO} from "../mapper/ContentsMapper";
 
 const usersController = (app: Express) => {
     app.get('/contents/:id', handled(async (req, res) => {
         await contentsService.getContentById(req.params.id)
-            .then(toContentDTO)
+            .then(toContentDetailDTO)
             .then(dto => res.send(dto))
     }));
 
     app.get('/contents', handled(async (req, res) => {
-        const url = req.params.url?.toString()
+        const url = req.query.url && req.query.url.toString()
         await contentsService.getContents({url})
             .then(users => users.map(toContentDTO))
             .then(dto => res.send(dto))

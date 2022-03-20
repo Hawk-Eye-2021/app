@@ -4,6 +4,7 @@ import {initTheme, ThemeModel} from "./Theme";
 import {ContentModel, initContent} from "./Content";
 import {initSource, SourceModel} from "./Source";
 import config from "../config/config";
+import {ContentThemesModel, initContentThemes} from "./ContentThemes";
 
 export const sequelize: Sequelize = new Sequelize(config.database.url, config.database.options)
 
@@ -17,22 +18,24 @@ function applyRelations() {
     UserModel.belongsToMany(ThemeModel, {through: "user_themes", foreignKey: "user_id", as: "themes"});
     ThemeModel.belongsToMany(UserModel, {through: "user_themes", foreignKey: "theme_id", as: "users"});
 
-    // contents <> themes
-    ContentModel.belongsToMany(ThemeModel, {through: "content_themes", foreignKey: "content_id", as: "themes"});
-    ThemeModel.belongsToMany(ContentModel, {through: "content_themes", foreignKey: "theme_id", as: "contents"})
-
     // contents <> sources
-
     SourceModel.hasMany(ContentModel, {foreignKey: "source_id"})
     ContentModel.belongsTo(SourceModel, {foreignKey: "source_id"})
+
+    // contents <> themes
+    ContentThemesModel.belongsTo(ContentModel, {foreignKey: "content_id", as: 'content'})
+    ContentModel.hasMany(ContentThemesModel, {foreignKey: "content_id", as: 'themes'})
+    ContentThemesModel.belongsTo(ThemeModel, {foreignKey: "theme_id", as: 'theme'})
+    ThemeModel.hasMany(ContentThemesModel, {foreignKey: "theme_id", as: 'contents'})
 }
+
 
 
 initTheme(sequelize)
 initUser(sequelize)
 initSource(sequelize)
 initContent(sequelize)
-
+initContentThemes(sequelize)
 
 applyRelations()
 syncSchema()

@@ -14,6 +14,7 @@ function Login() {
     const [showLogin, setShowLogin] = useState(true);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -21,16 +22,20 @@ function Login() {
     const handleFormSubmit = (e) => {
         e.preventDefault()
         if(showLogin) {
-            dispatch(login(username, password))
-            navigate("/app/themes")
+            dispatch(login(username, password, () => navigate("/app/themes")))
         } else {
-            http.post("/users", {name: username, password: password})
+            http.post("/users", {name: username, password, email})
                 .then(() => {
                     setShowLogin(true);
                     SnackbarUtils.success("El usuario se ha creado exitosamente")
                 })
-                .catch(() => {
-                    SnackbarUtils.error("El usuario se ha creado exitosamente")
+                .catch((err) => {
+                    const errResponse = err.response;
+                    if(errResponse.status === 400) {
+                        SnackbarUtils.error(errResponse.data.message)
+                    } else {
+                        SnackbarUtils.error("Ocurrió un error al crear el usuario")
+                    }
                 })
         }
     }
@@ -60,6 +65,8 @@ function Login() {
                                                   setUsername={setUsername}
                                                   setShowLogin={setShowLogin}
                                                   username={username}
+                                                  email={email}
+                                                  setEmail={setEmail}
                                     />
                             }
                         </form>

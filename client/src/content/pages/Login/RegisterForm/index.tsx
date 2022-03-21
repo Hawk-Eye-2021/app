@@ -4,7 +4,7 @@ import {CardActions, CardContent, FormControl, TextField} from "@mui/material";
 import "../Login.scss";
 import Button from "@mui/material/Button";
 
-function RegisterForm({username, password, setUsername, setPassword, setShowLogin}) {
+function RegisterForm({username, password, email, setEmail, setUsername, setPassword, setShowLogin}) {
 
     const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -15,6 +15,7 @@ function RegisterForm({username, password, setUsername, setPassword, setShowLogi
     useEffect(() => {
         setUsername("")
         setPassword("")
+        setEmail("")
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
@@ -27,6 +28,17 @@ function RegisterForm({username, password, setUsername, setPassword, setShowLogi
                             setUsername(e.target.value)
                         }}
                         label="Usuario"
+                    >
+                    </TextField>
+                </FormControl>
+                <FormControl fullWidth variant="outlined">
+                    <TextField
+                        value={email}
+                        onChange={(e) => {
+                            setEmail(e.target.value)
+                        }}
+                        label="Mail"
+                        type={"email"}
                     >
                     </TextField>
                 </FormControl>
@@ -74,7 +86,9 @@ function RegisterForm({username, password, setUsername, setPassword, setShowLogi
 RegisterForm.propTypes = {
     username: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
     setUsername: PropTypes.func.isRequired,
+    setEmail: PropTypes.func.isRequired,
     setPassword: PropTypes.func.isRequired,
     setShowLogin: PropTypes.func.isRequired,
 }

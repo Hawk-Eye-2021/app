@@ -47,6 +47,9 @@ const Status500 = Loader(lazy(() => import('src/content/pages/Status/Status500')
 const StatusComingSoon = Loader(lazy(() => import('src/content/pages/Status/ComingSoon')));
 const StatusMaintenance = Loader(lazy(() => import('src/content/pages/Status/Maintenance')));
 
+//Login
+const Login = Loader(lazy(() => import('src/content/pages/Login')));
+
 //Themes
 const Themes = Loader(lazy(() => import('src/content/pages/Themes/Table')));
 const ThemeDetail = Loader(lazy(() => import('src/content/pages/Themes/Detail')));
@@ -59,6 +62,10 @@ const routes: PartialRouteObject[] = [
       {
         path: '/',
         element: <Overview />
+      },
+      {
+        path: '/login',
+        element: <Login />
       },
       {
         path: "app",

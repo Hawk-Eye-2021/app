@@ -1,10 +1,12 @@
 import { FC, ReactNode } from 'react';
 import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
-import { Outlet } from 'react-router-dom';
+import { Outlet, Navigate } from 'react-router-dom';
+import {useSelector} from "react-redux";
 
 import Sidebar from './Sidebar';
 import Header from './Header';
+import {RootState} from "../../store/store";
 
 interface SidebarLayoutProps {
   children?: ReactNode;
@@ -31,7 +33,13 @@ const MainContent = styled(Box)(
 );
 
 const SidebarLayout: FC<SidebarLayoutProps> = () => {
-  return (
+
+    const user = useSelector((state: RootState) => state.user.user);
+
+    if(!user) {
+        return <Navigate replace to="/login" />
+    }
+    return (
     <>
       <Sidebar />
       <MainWrapper>

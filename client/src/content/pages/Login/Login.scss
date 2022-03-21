@@ -1,0 +1,53 @@
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  margin-bottom: 0;
+  background-image: url('/images/hawk-flying.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  &:after {
+    position: absolute;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    content: '';
+    display: block;
+    background: black;
+    opacity: .5;
+  }
+}
+
+.card-container {
+  z-index: 2;
+  padding: 1rem;
+}
+
+.card-title {
+  font-size: 32px !important;
+}
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer-text {
+  color: dodgerblue;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}

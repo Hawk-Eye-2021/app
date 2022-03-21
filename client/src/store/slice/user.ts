@@ -13,7 +13,7 @@ export const user = createSlice(
     {
         name: 'user',
         initialState: {
-            user: {id: "1", name: "Matias Miodosky"}
+            user: null
         } as RootState,
         reducers: {
             setUser: (state, action) => {
@@ -22,3 +22,19 @@ export const user = createSlice(
         }
     }
 )
+
+export const login = (username: string, password: string) => (dispatch) => {
+    // http.post(`/users/login`, {username, password})
+    //     .then(res => {
+    //         dispatch(theme.actions.setUserThemes(res.data))
+    //         dispatch(theme.actions.setUserThemesStatus('success'))
+    //     })
+    //     .catch(() => {
+    //         dispatch(theme.actions.setUserThemesStatus('error'))
+    //     })
+    dispatch(user.actions.setUser({id: 1, name: "Mariano Longo"}))
+}
+
+export const logout = () => (dispatch) => {
+    dispatch(user.actions.setUser(null))
+}

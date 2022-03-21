@@ -21,9 +21,11 @@ import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
-import {useSelector} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import {RootState} from "../../../../store/store";
 import {deepOrange} from "@mui/material/colors";
+import {logout} from "../../../../store/slice/user";
+import {useNavigate} from "react-router-dom";
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -57,9 +59,12 @@ const UserBoxLabel = styled(Typography)(
 
 function HeaderUserbox() {
   const user = useSelector((state: RootState) => state.user.user);
+  const dispatch = useDispatch();
 
   const ref = useRef<any>(null);
   const [isOpen, setOpen] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   const handleOpen = (): void => {
     setOpen(true);
@@ -68,6 +73,11 @@ function HeaderUserbox() {
   const handleClose = (): void => {
     setOpen(false);
   };
+
+  const handleLogout = () => {
+    dispatch(logout())
+    navigate("/login")
+  }
 
   const avatarColor = deepOrange[500]
   return (
@@ -131,7 +141,7 @@ function HeaderUserbox() {
         {/*</List>*/}
         {/*<Divider />*/}
         <Box sx={{ m: 1 }}>
-          <Button color="primary" fullWidth>
+          <Button color="primary" fullWidth onClick={handleLogout}>
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />
             Cerrar Sesión
           </Button>

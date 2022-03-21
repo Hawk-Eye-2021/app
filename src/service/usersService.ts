@@ -7,7 +7,10 @@ import {ThemeModel} from "../model/Theme";
 
 export async function createUser(user: UserDTO): Promise<User> {
     if (await usersRepository.findOne({name: user.name})) {
-        throw new APIError(400, 'User with this name already exists');
+        throw new APIError(400, 'Ya existe un usuario con ese nombre');
+    }
+    if (await usersRepository.findOne({email: user.email})) {
+        throw new APIError(400, 'Ya existe un usuario con ese mail');
     }
     return await usersRepository.create(user);
 }
@@ -73,4 +76,10 @@ export async function removeThemeForUser(userId: string, themeId: string) {
     return usersRepository.removeTheme(user, theme)
 }
 
-
+export async function login(user: UserDTO): Promise<User> {
+    const userFound = await usersRepository.findOne({name: user.name, password: user.password});
+    if (!userFound) {
+        throw new APIError(400, 'Usuario no encontrado o contraseña incorrecta');
+    }
+    return userFound
+}

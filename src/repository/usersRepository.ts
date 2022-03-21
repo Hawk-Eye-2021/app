@@ -4,12 +4,14 @@ import {Theme, ThemeModel} from "../model/Theme";
 import {APIError} from "../errorHandler/errorHandler";
 
 
-export async function findOne({id, name}: { id?: string, name?: string }): Promise<User | null> {
+export async function findOne({id, name, email, password}: { id?: string, name?: string, email?: string, password?: string }): Promise<User | null> {
     return UserModel.findOne(
         {
             where: {
                 ...(id && {id}),
                 ...(name && {name}),
+                ...(email && {email}),
+                ...(password && {password}),
                 deleted: false
             }
         }

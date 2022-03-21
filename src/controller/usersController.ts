@@ -47,6 +47,11 @@ const usersController = (app: Express) => {
             .then(dto => res.send(dto))
     }))
 
+    app.post('/users/login', handled(async (req, res) => {
+        await usersService.login(req.body)
+            .then(toUserDTO)
+            .then(dto => res.send(dto))
+    }))
 }
 
 export default usersController

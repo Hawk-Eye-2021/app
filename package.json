@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=production ts-node src/index.ts",
-    "dev": "NODE_ENV=local nodemon src/index.ts"
+    "dev": "NODE_ENV=local nodemon src/index.ts",
+    "dev-pod": "NODE_ENV=production nodemon src/index.ts"
   },
   "author": "",
   "license": "ISC",

@@ -9,6 +9,7 @@ export interface Content {
     sourceId: string
     deleted?: boolean
     themes?: ContentThemes[]
+    createdAt?: string
 }
 
 export interface CreationContent {

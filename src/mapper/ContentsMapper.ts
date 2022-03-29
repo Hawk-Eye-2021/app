@@ -8,7 +8,8 @@ export function toContentDTO(content: Content): ContentDTO {
         id: content.id,
         title: content.title,
         url: content.url,
-        sourceId: content.sourceId
+        sourceId: content.sourceId,
+        createdAt: content.createdAt || ''
     }
 }
 
@@ -25,7 +26,7 @@ export function toContentDetailDTO(content: Content): ContentDetails {
             themeId: theme.themeId,
             sentiment: theme.sentiment
         })),
-
+        createdAt: content.createdAt || ''
     }
 }
 
@@ -39,6 +40,7 @@ export function toThemeContentDTO(contentThemes: ContentThemes): ThemeContent {
         sentiment: contentThemes.sentiment,
         sourceId: contentThemes.content.sourceId,
         title: contentThemes.content.title,
-        url: contentThemes.content.url
+        url: contentThemes.content.url,
+        createdAt: contentThemes.content.createdAt || ''
     }
 }

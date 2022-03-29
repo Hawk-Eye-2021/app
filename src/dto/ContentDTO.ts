@@ -3,6 +3,7 @@ export interface ContentDTO {
     title: string
     url: string
     sourceId: string
+    createdAt: string
 }
 
 export interface ThemeContent extends ContentDTO{

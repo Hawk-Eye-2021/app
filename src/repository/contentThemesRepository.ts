@@ -12,10 +12,10 @@ export async function create(themeId: string, contentId: string, sentiment: stri
 }
 
 
-export async function findAllForTheme(themeId: string): Promise<ContentThemesModel[]> {
+export async function findAllForTheme(themeId: string, synonyms: string[] = []): Promise<ContentThemesModel[]> {
     return ContentThemesModel.findAll({
         where: {
-            themeId
+            themeId: [themeId, ...synonyms]
         },
         include: {
             model: ContentModel,

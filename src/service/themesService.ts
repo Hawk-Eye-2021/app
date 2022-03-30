@@ -4,6 +4,8 @@ import * as themesRepository from "../repository/themesRepository";
 import * as contentsService from "../service/contentsService"
 import * as contentThemesRepository from "../repository/contentThemesRepository"
 import {ContentThemes} from "../model/ContentThemes";
+import {getSynonymsForTheme} from "./synonymsService";
+import {distinct} from "../util/distinct";
 
 
 export async function getThemes(filters: { name?: string }): Promise<Theme[]> {
@@ -65,5 +67,8 @@ export async function getContentsByTheme(id: string): Promise<ContentThemes[]> {
         throw new APIError(404, 'Theme not found')
     }
 
-    return await contentThemesRepository.findAllForTheme(theme.id)
+    const synonyms = await getSynonymsForTheme(theme.id)
+    const synonymsThemes = synonyms.flatMap(synonym => [synonym.theme1Id, synonym.theme2Id]).filter(distinct)
+
+    return await contentThemesRepository.findAllForTheme(theme.id, synonymsThemes)
 }

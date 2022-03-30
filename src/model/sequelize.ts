@@ -5,6 +5,7 @@ import {ContentModel, initContent} from "./Content";
 import {initSource, SourceModel} from "./Source";
 import config from "../config/config";
 import {ContentThemesModel, initContentThemes} from "./ContentThemes";
+import {initSynonym, SynonymModel} from "./Synonym";
 
 export const sequelize: Sequelize = new Sequelize(config.database.url, config.database.options)
 
@@ -27,6 +28,10 @@ function applyRelations() {
     ContentModel.hasMany(ContentThemesModel, {foreignKey: "content_id", as: 'themes'})
     ContentThemesModel.belongsTo(ThemeModel, {foreignKey: "theme_id", as: 'theme'})
     ThemeModel.hasMany(ContentThemesModel, {foreignKey: "theme_id", as: 'contents'})
+
+    // synonyms
+    ThemeModel.hasMany(SynonymModel, {foreignKey: "theme_1_id", as: "theme1"})
+    ThemeModel.hasMany(SynonymModel, {foreignKey: "theme_2_id", as: "theme2"})
 }
 
 
@@ -36,6 +41,7 @@ initUser(sequelize)
 initSource(sequelize)
 initContent(sequelize)
 initContentThemes(sequelize)
+initSynonym(sequelize)
 
 applyRelations()
 syncSchema()

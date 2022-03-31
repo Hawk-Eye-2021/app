@@ -44,4 +44,4 @@ initContentThemes(sequelize)
 initSynonym(sequelize)
 
 applyRelations()
-syncSchema()
+// syncSchema()

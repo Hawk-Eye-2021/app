@@ -42,9 +42,23 @@ export async function deleteUser(id: string): Promise<User> {
 export async function getThemesByUserId(id: string) {
     const user = await usersRepository.findOne({id})
     if (!user) {
-        throw new APIError(404, `user not found for id ${id}`)
+        throw new APIError(404, `User not found for id ${id}`)
     }
     return usersRepository.findAllThemesForUser(user)
+}
+
+export async function getThemesToSubscribe(id: string) {
+    const user = await usersRepository.findOne({id})
+    if (!user) {
+        throw new APIError(404, `User not found for id ${id}`)
+    }
+
+    const userThemes = await usersRepository.findAllThemesForUser(user);
+
+    const userThemesIds = userThemes.map(theme => theme.id);
+    const themes = await themesService.getThemes({})
+
+    return themes.filter(theme => !userThemesIds.includes(theme.id))
 }
 
 export async function addTheme(userId: string, {themeId}: { themeId: string }) {

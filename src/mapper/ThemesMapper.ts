@@ -13,7 +13,7 @@ export function toThemeWithSentimentsCountsDTO(theme: ThemeWithSentimentsCount):
 
     return {
         id: theme.id,
-        name: theme.id,
+        name: theme.name,
         positive: theme.positive,
         negative: theme.negative,
         neutral: theme.neutral

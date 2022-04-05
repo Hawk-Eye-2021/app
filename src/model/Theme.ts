@@ -20,6 +20,7 @@ export interface CreationTheme {
 
 export interface SentimentsCounts{
 
+    id: string,
     positive: number,
     neutral: number,
     negative: number

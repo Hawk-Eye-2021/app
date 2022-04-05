@@ -1,4 +1,4 @@
-import {Theme} from "../model/Theme";
+import {SentimentsCounts, Theme} from "../model/Theme";
 import {APIError} from "../errorHandler/errorHandler";
 import * as themesRepository from "../repository/themesRepository";
 import * as contentsService from "../service/contentsService"
@@ -6,7 +6,7 @@ import * as contentThemesRepository from "../repository/contentThemesRepository"
 import {ContentThemes} from "../model/ContentThemes";
 import {getSynonymsForTheme} from "./synonymsService";
 import {distinct} from "../util/distinct";
-import {SentimentsCounts, ThemeWithSentimentsCountsDTO} from "../dto/ThemeDTO";
+import {ThemeWithSentimentsCountsDTO} from "../dto/ThemeDTO";
 import {abortControllerWithReason} from "@reduxjs/toolkit/dist/listenerMiddleware/utils";
 
 

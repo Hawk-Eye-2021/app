@@ -18,6 +18,16 @@ export interface CreationTheme {
     name: string
 }
 
+export interface SentimentsCounts{
+
+    positive: number,
+    neutral: number,
+    negative: number
+
+}
+
+export interface ThemeWithSentimentsCount extends Theme, SentimentsCounts {}
+
 export class ThemeModel extends Model<Theme, CreationTheme> implements Theme {
     public id!: string
     public name!: string

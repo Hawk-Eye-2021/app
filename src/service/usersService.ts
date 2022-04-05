@@ -3,7 +3,13 @@ import {User, UserModel} from "../model/User";
 import {UserDTO} from "../dto/UserDTO";
 import * as usersRepository from "../repository/usersRepository";
 import * as themesService from "../service/themesService"
-import {ThemeModel} from "../model/Theme";
+import {Theme, ThemeModel, ThemeWithSentimentsCount} from "../model/Theme";
+
+const DEFAULT_SENTIMENTS_COUNTS = {
+    neutral: 0,
+    positive: 0,
+    negative: 0
+}
 
 export async function createUser(user: UserDTO): Promise<User> {
     if (await usersRepository.findOne({name: user.name})) {
@@ -39,12 +45,19 @@ export async function deleteUser(id: string): Promise<User> {
 
 // users <> themes
 
-export async function getThemesByUserId(id: string) {
+export async function getThemesByUserId(id: string): Promise<ThemeWithSentimentsCount[]> {
     const user = await usersRepository.findOne({id})
     if (!user) {
         throw new APIError(404, `User not found for id ${id}`)
     }
-    return usersRepository.findAllThemesForUser(user)
+    const themes = await usersRepository.findAllThemesForUser(user)
+
+    const sentimentsCounts = await themesService.getSentimentsCounts(themes.map(t => t.id))
+
+    return themes.map(theme => ({
+        ...theme,
+        ...(sentimentsCounts.find(({id}) => id === theme.id) || DEFAULT_SENTIMENTS_COUNTS)
+    }))
 }
 
 export async function getThemesToSubscribe(id: string) {

@@ -1,7 +1,7 @@
 import {Express} from "express";
 import {toUserDTO} from "../mapper/UsersMapper";
 import {handled} from "../errorHandler/errorHandler";
-import {toThemeDTO} from "../mapper/ThemesMapper";
+import {toThemeDTO, toThemeWithSentimentsCountsDTO} from "../mapper/ThemesMapper";
 import * as usersService from "../service/usersService";
 import {getThemesToSubscribe} from "../service/usersService";
 
@@ -38,7 +38,7 @@ const usersController = (app: Express) => {
 
     app.get('/users/:id/themes', handled(async (req, res) => {
         await usersService.getThemesByUserId(req.params.id)
-            .then(themes => themes.map(toThemeDTO))
+            .then(themes => themes.map(toThemeWithSentimentsCountsDTO))
             .then(dto => res.send(dto))
     }))
 

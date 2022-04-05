@@ -55,7 +55,7 @@ export async function getThemesByUserId(id: string): Promise<ThemeWithSentiments
     const sentimentsCounts = await themesService.getSentimentsCounts(themes.map(t => t.id))
 
     return themes.map(theme => ({
-        ...theme,
+        ...theme.toJSON(),
         ...(sentimentsCounts.find(({id}) => id === theme.id) || DEFAULT_SENTIMENTS_COUNTS)
     }))
 }

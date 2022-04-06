@@ -13,7 +13,7 @@ export async function refresh() {
         {
             filters:   {sourceId: '2', refreshed: false},
             sorts:  {createdAt: 'DESC'},
-            limit: 10
+            limit: 15
         }
     )
 

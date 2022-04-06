@@ -2,12 +2,23 @@ import {Content, ContentModel} from "../model/Content";
 import {ContentThemesModel} from "../model/ContentThemes";
 import {ThemeModel} from "../model/Theme";
 
-export async function findAll(filters: { url?: string }) {
+export async function update(content: ContentModel, values: { refreshed: boolean; url: string }) {
+    return content.update(values)
+}
+
+
+export async function findAll({filters, sorts = {createdAt: 'DESC'}, limit}: { filters: { url?: string, sourceId?: string, refreshed?: boolean }, sorts?: { createdAt: 'ASC' | 'DESC' }, limit?: number}) {
     return ContentModel.findAll({
         where: {
             deleted: false,
-            ...(filters.url && {url: filters.url})
-        }
+            ...(filters.url && {url: filters.url}),
+            ...(filters.sourceId && {sourceId: filters.sourceId}),
+            ...(filters.refreshed !== undefined && {refreshed: filters.refreshed})
+        },
+        order: [
+            ['createdAt', sorts.createdAt]
+        ],
+        ...( limit && { limit } )
     })
 }
 

@@ -9,7 +9,8 @@ export interface Content {
     sourceId: string
     deleted?: boolean
     themes?: ContentThemes[]
-    createdAt?: string
+    createdAt?: string,
+    refreshed: boolean
 }
 
 export interface CreationContent {
@@ -24,6 +25,7 @@ export class ContentModel extends Model<Content, CreationContent> implements Con
     public url!: string;
     public deleted!: boolean;
     public sourceId!: string
+    public refreshed!: boolean
 }
 
 
@@ -54,6 +56,11 @@ export async function initContent(sequelize: Sequelize) {
                 references: {
                     model: SourceModel
                 }
+            },
+            refreshed: {
+                type: DataTypes.BOOLEAN,
+                field: 'refreshed',
+                defaultValue: false
             }
         },
         {

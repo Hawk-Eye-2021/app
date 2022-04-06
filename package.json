@@ -24,6 +24,7 @@
     "pg": "^8.7.1",
     "sequelize": "6.12.4",
     "ts-node": "^10.4.0",
-    "typescript": "^4.5.4"
+    "typescript": "^4.5.4",
+    "node-fetch": "2.6.7"
   }
 }

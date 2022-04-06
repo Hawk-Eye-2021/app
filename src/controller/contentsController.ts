@@ -4,6 +4,12 @@ import * as contentsService from "../service/contentsService"
 import {toContentDetailDTO, toContentDTO} from "../mapper/ContentsMapper";
 
 const usersController = (app: Express) => {
+
+    app.get('/contents/refresh', handled(async (req, res) => {
+        await contentsService.refresh()
+        res.status(200).send()
+    }))
+
     app.get('/contents/:id', handled(async (req, res) => {
         await contentsService.getContentById(req.params.id)
             .then(toContentDetailDTO)
@@ -28,6 +34,7 @@ const usersController = (app: Express) => {
             .then(toContentDTO)
             .then(dto => res.send(dto))
     }))
+
 
 }
 

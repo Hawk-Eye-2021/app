@@ -60,7 +60,7 @@ export async function initContent(sequelize: Sequelize) {
             refreshed: {
                 type: DataTypes.BOOLEAN,
                 field: 'refreshed',
-                defaultValue: false
+                defaultValue: true
             }
         },
         {

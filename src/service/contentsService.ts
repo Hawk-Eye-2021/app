@@ -13,25 +13,31 @@ export async function refresh() {
         {
             filters:   {sourceId: '2', refreshed: false},
             sorts:  {createdAt: 'DESC'},
-            limit: 5
+            limit: 10
         }
     )
 
     await Promise.all(contentsToRefresh.map(async content => {
-        const url = `https://api.twitter.com/1.1/search/tweets.json`
-        const headers = {
-            'Authorization': 'Bearer AAAAAAAAAAAAAAAAAAAAACbKTQEAAAAALN7G7nDUpfBOHf%2BTElkU7rf%2Bqyk%3Dcm1yWZ8omgcuodWRMPxPoglJU8cg6XjIJTJ5kawLTyqneZ3r7j'
+        try {
+            const url = `https://api.twitter.com/1.1/search/tweets.json`
+            const headers = {
+                'Authorization': 'Bearer AAAAAAAAAAAAAAAAAAAAACbKTQEAAAAALN7G7nDUpfBOHf%2BTElkU7rf%2Bqyk%3Dcm1yWZ8omgcuodWRMPxPoglJU8cg6XjIJTJ5kawLTyqneZ3r7j'
+            }
+            const params = new URLSearchParams({q: content.title, count: '1'})
+
+            const tweet = await fetch(`${url}?${params}`, {headers, params})
+                .then((res: { json: () => any; }) => {
+                    return res.json()
+                })
+                .then((res: { statuses: any[]; }) => {
+                    return res.statuses[0]
+                })
+
+            const newUrl = `https://twitter.com/tweeter/status/${tweet.id_str}`
+            await contentsRepository.update(content, {url: newUrl, refreshed: true})
+        }catch (e){
+            await contentsRepository.update(content, { refreshed: null})
         }
-        const params = new URLSearchParams({q: content.title, count: '1'})
-
-        const tweet = await fetch(`${url}?${params}`, { headers , params})
-            .then((res: { json: () => any; }) => {
-                return res.json()
-            })
-            .then((res: { statuses: any[]; }) => res.statuses[0])
-
-        const newUrl  = `https://twitter.com/tweeter/status/${tweet.id_str}`
-        await contentsRepository.update(content, {url: newUrl, refreshed: true})
     }))
 }
 

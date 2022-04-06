@@ -2,8 +2,9 @@ import {Content, ContentModel} from "../model/Content";
 import {ContentThemesModel} from "../model/ContentThemes";
 import {ThemeModel} from "../model/Theme";
 
-export async function update(content: ContentModel, values: { refreshed: boolean; url: string }) {
-    return content.update(values)
+export async function update(content: ContentModel, values: { refreshed: boolean | null; url?: string }) {
+    // @ts-ignore
+    return content.update({...content, ...values})
 }
 
 
